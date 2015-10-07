@@ -1,15 +1,15 @@
 <?php
 
 // include $_SERVER['DOCUMENT_ROOT'].'/verify/shared/errors.php';
-include $_SERVER['DOCUMENT_ROOT'].'/verify/twitter/verify_twitter.php';
-include '../test_helper.php';
+include $_SERVER['DOCUMENT_ROOT'].'/verify/twitter/verify_twit.php';
+include './test_helper.php';
 // mimicking json from eyal
-$verified_path = '../verified.json';
+$verified_path = './fixtures/verified.json';
 $verified_file = fopen($verified_path, "r") or die("Unable to open file!");
 $verified_json = fread($verified_file,filesize($verified_path));
 fclose($verified_file);
 
-$unverified_path = '../unverified.json';
+$unverified_path = './fixtures/unverified.json';
 $unverified_file = fopen($unverified_path, "r") or die("Unable to open file!");
 $unverified_json = fread($unverified_file,filesize($unverified_path));
 fclose($unverified_file);
