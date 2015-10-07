@@ -1,0 +1,17 @@
+{
+	"social":{
+		"twitter":{
+			"text": "Verifying issuance of colored coins asset <assetID>",
+			"pid":"649165336336535552"
+		},
+		"facebook":{
+			"text": "Verifying issuance of colored coins asset <assetID>",
+			"user":"assafcolu",
+			"pid":"137988556553873"			
+		}
+	},
+	"domain":{
+		"url":"https://www.example.com",
+		"path":"assets.txt"
+	}
+}
