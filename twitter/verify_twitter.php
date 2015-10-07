@@ -1,10 +1,10 @@
 <?php
 
-// include 'errors.php';
-
-include 'twitter_consumer_data.php';
+define('ROOT',$_SERVER['DOCUMENT_ROOT'].'/verify/');
 define('HOST','https://api.twitter.com');
-define('TOKEN_FILE','twitter_bearer_token.txt');
+define('TOKEN_FILE',ROOT.'twitter/twitter_bearer_token.txt');
+define('SECRET_FILE',ROOT.'twitter/twitter_consumer_data.php');
+include SECRET_FILE;
 
 function get_bearer_token(){
 	// Step 1
@@ -48,7 +48,7 @@ function get_bearer_token(){
 	}
 	$bearer_token = json_decode($bearer_token);
 	return $bearer_token->{'access_token'};
-}
+};
 
 function invalidate_bearer_token($bearer_token){
 	$encoded_consumer_key = urlencode(CONSUMER_KEY);
@@ -77,7 +77,7 @@ function invalidate_bearer_token($bearer_token){
 	$retrievedhtml = curl_exec ($ch); // execute the curl
 	curl_close($ch); // close the curl
 	return $retrievedhtml;
-}
+};
 
 function get_raw_tweet_by_id($bearer_token, $tweet_id){
 	$endpoint = '/1.1/statuses/show.json';
@@ -97,7 +97,7 @@ function get_raw_tweet_by_id($bearer_token, $tweet_id){
 	$retrievedhtml = curl_exec ($ch); // execute the curl
 	curl_close($ch); // close the curl
 	return $retrievedhtml;		
-}
+};
 
 function parse_tweet($raw_tweet){
 	$tmp = json_decode($raw_tweet,TRUE);
@@ -107,7 +107,7 @@ function parse_tweet($raw_tweet){
 	} else {
 		return $tmp['text'];
 	};	
-}
+};
 // get it from file, or from twitter api if file is empty
 function fetch_bearer_token($path){
 	$bearer_token_file = fopen($path, "a+") or die("Unable to open file!");
@@ -131,7 +131,7 @@ function get_tweet($tweet_id){
 	} catch (Exception $e) {
 	    echo 'Caught exception: ',  $e->getMessage(), "\n";
 	};	
-}
+};
 
 function get_tweet_id($json){
 	$tmp = json_decode($json,TRUE);
@@ -161,16 +161,5 @@ function twitter_verify_asset($verifications_json){
 	$msg = ($check ? 'Asset is verified': 'Asset verification failed. Expected ['.$expected_content.'] but got ['.$tweet_content.']');
 	return $check;
 }
-
-// echo "The tweet is <hr/>".get_tweet('649137197539565568').'<hr/>';
-// mimicking json from eyal
-$path = 'verifications.json';
-$verifications_file = fopen($path, "r") or die("Unable to open file!");
-$verifications_json = fread($verifications_file,filesize($path));
-fclose($verifications_file);
-
-// echo "json tweet is <hr/>".get_tweet(get_tweet_id($verifications_json)).'<hr/>';
-// echo "foo";
-echo "Verified?: [".twitter_verify_asset($verifications_json).']';
 
 ?>
