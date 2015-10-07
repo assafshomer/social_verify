@@ -108,8 +108,8 @@ function parse_tweet($raw_tweet){
 		return $tmp['text'];
 	};	
 }
-
-function retrieve_bearer_token($path){
+// get it from file, or from twitter api if file is empty
+function fetch_bearer_token($path){
 	$bearer_token_file = fopen($path, "a+") or die("Unable to open file!");
 	$size = filesize($path);
 	if ($size > 0) {
@@ -123,7 +123,7 @@ function retrieve_bearer_token($path){
 };
 
 function get_tweet($tweet_id){
-	$bearer_token = retrieve_bearer_token(TOKEN_FILE);
+	$bearer_token = fetch_bearer_token(TOKEN_FILE);
 	$tweet = get_raw_tweet_by_id($bearer_token,$tweet_id);
 	// $tweet = get_tweet_by_id($bearer_token,'649137197539');
 	try {
@@ -143,14 +143,34 @@ function get_tweet_id($json){
 	};
 };
 
+function get_expected_text($json){
+	$tmp = json_decode($json,TRUE);
+	$error_message = $tmp['errors'][0]['message'];
+	if (strlen($error_message)>0) {
+		return $error_message;
+	} else {
+		return $tmp['social']['twitter']['text'];
+	};
+};
 
-echo "The tweet is <hr/>".get_tweet('649137197539565568').'<hr/>';
+function twitter_verify_asset($verifications_json){
+	$tweet_content = get_tweet(get_tweet_id($verifications_json));
+	$expected_content = get_expected_text($verifications_json);
+	$check = ($tweet_content==$expected_content)?TRUE:FALSE;
+	// Eyal, I think we should log the following msg
+	$msg = ($check ? 'Asset is verified': 'Asset verification failed. Expected ['.$expected_content.'] but got ['.$tweet_content.']');
+	return $check;
+}
+
+// echo "The tweet is <hr/>".get_tweet('649137197539565568').'<hr/>';
 // mimicking json from eyal
 $path = 'verifications.json';
 $verifications_file = fopen($path, "r") or die("Unable to open file!");
 $verifications_json = fread($verifications_file,filesize($path));
 fclose($verifications_file);
 
-echo "json tweet is <hr/>".get_tweet(get_tweet_id($verifications_json)).'<hr/>';
+// echo "json tweet is <hr/>".get_tweet(get_tweet_id($verifications_json)).'<hr/>';
+// echo "foo";
+echo "Verified?: [".twitter_verify_asset($verifications_json).']';
 
 ?>
