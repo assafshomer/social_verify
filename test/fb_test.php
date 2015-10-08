@@ -30,7 +30,7 @@ $unverified_test = (fb_verify_asset($unverified_json) <> 1) ? PASS:FAIL;
 $pid_test = ($pid == 145466885806040) ? PASS:FAIL;
 $uid_test = ($uid == 100010281887017) ? PASS:FAIL;
 $accesstoken_test = (strlen($accesstoken) > 100)? PASS:FAIL;
-$expected_text = (strlen(get_expected_text($verified_json))>10)?PASS:FAIL;
+$expected_text = (preg_match("/LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX/",get_expected_text($verified_json)))?PASS:FAIL;
 // 2015-10-06T08:28:06+0000
 $getpost_test = (strlen($ct) == 24)? PASS:FAIL;
 $content_test = (preg_match("/LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX/",parse_post($post)))?PASS:FAIL;
