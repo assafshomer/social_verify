@@ -1,15 +1,15 @@
 {
 	"social":{
-		"twitter":{
+		"xxx":{
 			"text": "Verifying issuance of colored coins asset with asset_id: [LJEC6Q2h9JKNvZqEC87TbEXvxm4xr1uivb2QX]",
 			"pid":"651645990554968064"
 		},
-		"facebook":{
+		"ttt":{
 			"text": "Verifying issuance of colored coins asset <assetID>",
 			"user":"assafcolu",
 			"pid":"137988556553873"			
 		},
-		"github":{
+		"zzz":{
 			"text": "Verifying issuance of colored coins asset with asset_id: [LJEC6Q2h9JKxvZqEC87TbEXvxm4br1uivb2QX]",
 			"pid":"6c704f5759927212e714"			
 		}

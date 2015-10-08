@@ -25,7 +25,7 @@ function parse_gist($raw_gist){
 	if (strlen($error_message)>0) {
 		return $error_message;
 	} else {
-		return $tmp['message'];
+		return $tmp['files']['gistfile1.txt']['content'];
 	};	
 };
 
@@ -36,16 +36,6 @@ function get_pid($json){
 		return $error_message;
 	} else {
 		return $tmp['social']['github']['pid'];
-	};
-};
-
-function get_uid($json){
-	$tmp = json_decode($json,TRUE);
-	$error_message = $tmp['errors'][0]['message'];
-	if (strlen($error_message)>0) {
-		return $error_message;
-	} else {
-		return $tmp['social']['github']['uid'];
 	};
 };
 
@@ -60,9 +50,8 @@ function get_expected_text($json){
 };
 
 function github_verify_asset($verifications_json){
-	$uid = get_uid($verifications_json);
 	$pid = get_pid($verifications_json);	
-	$gist_content = parse_gist(get_gist($uid,$pid));
+	$gist_content = parse_gist(get_gist($pid));
 	$expected_content = get_expected_text($verifications_json);
 	$check = ($gist_content==$expected_content)?TRUE:FALSE;
 	// Eyal, I think we should log the following msg
