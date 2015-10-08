@@ -36,7 +36,8 @@ function get_pid($json){
 	$tmp = json_decode($json,TRUE);
 	$error_message = $tmp['errors'][0]['message'];
 	if (strlen($error_message)>0) {
-		return $error_message;
+		echo $error_message;
+		return false;
 	} else {
 		return $tmp['social']['github']['pid'];
 	};
@@ -53,7 +54,8 @@ function get_expected_text($json){
 };
 
 function github_verify_asset($verifications_json){
-	$pid = get_pid($verifications_json);	
+	$pid = get_pid($verifications_json);
+	if (!$pid) {return false;};	
 	$gist_content = parse_gist(get_gist($pid));
 	$expected_content = get_expected_text($verifications_json);
 	$check = ($gist_content==$expected_content)?TRUE:FALSE;
