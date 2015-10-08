@@ -1,0 +1,46 @@
+[verify (master)]$  curl -u coloredcoinsassetverification https://api.github.com/user
+Enter host password for user 'coloredcoinsassetverification':
+{
+  "login": "coloredcoinsassetverification",
+  "id": 15031878,
+  "avatar_url": "https://avatars.githubusercontent.com/u/15031878?v=3",
+  "gravatar_id": "",
+  "url": "https://api.github.com/users/coloredcoinsassetverification",
+  "html_url": "https://github.com/coloredcoinsassetverification",
+  "followers_url": "https://api.github.com/users/coloredcoinsassetverification/followers",
+  "following_url": "https://api.github.com/users/coloredcoinsassetverification/following{/other_user}",
+  "gists_url": "https://api.github.com/users/coloredcoinsassetverification/gists{/gist_id}",
+  "starred_url": "https://api.github.com/users/coloredcoinsassetverification/starred{/owner}{/repo}",
+  "subscriptions_url": "https://api.github.com/users/coloredcoinsassetverification/subscriptions",
+  "organizations_url": "https://api.github.com/users/coloredcoinsassetverification/orgs",
+  "repos_url": "https://api.github.com/users/coloredcoinsassetverification/repos",
+  "events_url": "https://api.github.com/users/coloredcoinsassetverification/events{/privacy}",
+  "received_events_url": "https://api.github.com/users/coloredcoinsassetverification/received_events",
+  "type": "User",
+  "site_admin": false,
+  "name": null,
+  "company": null,
+  "blog": null,
+  "location": null,
+  "email": null,
+  "hireable": null,
+  "bio": null,
+  "public_repos": 0,
+  "public_gists": 0,
+  "followers": 0,
+  "following": 0,
+  "created_at": "2015-10-08T11:51:16Z",
+  "updated_at": "2015-10-08T11:51:16Z",
+  "private_gists": 0,
+  "total_private_repos": 0,
+  "owned_private_repos": 0,
+  "disk_usage": 0,
+  "collaborators": 0,
+  "plan": {
+    "name": "free",
+    "space": 976562499,
+    "collaborators": 0,
+    "private_repos": 0
+  }
+}
+[verify (master)]$ 
