@@ -19,6 +19,7 @@ $uid = get_uid($verified_json);
 $accesstoken = fetch_access_token(TOKEN_FILE);
 $post = get_post_by_id($uid,$pid);
 $ct = json_decode($post,TRUE)['created_time'];
+$er = json_decode($post,TRUE)['error']['message'];
 // TESTS
 // $var_test = ()? PASS:FAIL;
 
@@ -30,7 +31,7 @@ $accesstoken_test = (strlen($accesstoken) > 100)? PASS:FAIL;
 // 2015-10-06T08:28:06+0000
 $getpost_test = (strlen($ct) == 24)? PASS:FAIL;
 $content_test = (parse_post($post)=='abra kadabra')? PASS:FAIL;
-
+$error_test = (preg_match("/Error validating access token/",$er))?FAIL:PASS;
 // OUTPUT
 
 echo "<br/>verified_test: [".$verified_test."]";
@@ -40,9 +41,10 @@ echo "<br/>user id from json: [".$uid_test."]";
 echo "<br/>access token from file: [".$accesstoken_test."]";
 echo "<br/>getpost: [".$getpost_test."]";
 echo "<br/>post content: [".$content_test."]";
+echo "<br/>error test: [".$error_test."]";
 
 // AUX OUTPUTS
 // echo "<br/>at: [".$accesstoken."]";
 // echo "<br/>ca: [".$ct."]";
-// echo "<br/>post: [".$post."]";
+echo "<br/>error: [".$er."]";
 ?>
