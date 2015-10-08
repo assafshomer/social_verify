@@ -1,7 +1,7 @@
 <?php
 
-include 'fb_get_token.php';
-define('HOST','https://graph.facebook.com');
+include 'vars.php';
+include SECRET_FILE;
 
 function get_post($uid,$pid){
 	$endpoint = '/'.$uid.'_'.$pid;

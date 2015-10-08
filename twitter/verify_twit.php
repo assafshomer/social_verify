@@ -1,7 +1,7 @@
 <?php
 
+include 'vars.php';
 include 'twitter_get_tokens.php';
-define('HOST','https://api.twitter.com');
 
 function get_raw_tweet_by_id($bearer_token, $tweet_id){
 	$endpoint = '/1.1/statuses/show.json';
