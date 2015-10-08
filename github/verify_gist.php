@@ -1,13 +1,15 @@
 <?php
 
 include 'vars.php';
+include SECRET_FILE;
 
 function get_gist($pid){
-	$endpoint = '/'.$pid;
+	$endpoint = '/gists/'.$pid;
 	$formed_url = HOST.$endpoint;
+	// echo "<br/>apiurl: [".$formed_url."]";
 	$headers = array( 
 		"GET ".$endpoint." HTTP/1.1", 
-		"Host: ".HOST, 
+		"Host: ".HOST.'/gists/', 
 		"User-Agent: Colu Asset Verificator"
 	);	
 	$ch = curl_init(); 
@@ -15,7 +17,8 @@ function get_gist($pid){
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	$retrievedhtml = curl_exec ($ch);
-	curl_close($ch); 
+	curl_close($ch);
+	// echo $retrievedhtml; 
 	return $retrievedhtml;		
 };
 
