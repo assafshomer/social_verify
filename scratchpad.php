@@ -35,4 +35,11 @@ if (preg_match("/php/i", "PHP is the web scripting language of choice.")) {
     echo "A match was not found.";
 }
 
+$foo='a';
+$foo.='b';
+echo $foo;
+
+
+// $output = shell_exec('ls -lart');
+// echo "<pre>$output</pre>";
 ?>
