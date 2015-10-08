@@ -7,7 +7,10 @@ define('HOST','https://graph.facebook.com');
 include SECRET_FILE;
 include ROOT.'/shared/errors.php';
 $accessToken = fetch_access_token(TOKEN_FILE);
-extend_access_token($accessToken);
+// $accessToken = '1624529804474003|D3cf6KRK-zhfvgASwRRfieUqtSw';
+echo "<br/>long lived token: [".extend_access_token($accessToken)."]";
+echo "<br/>foo: [".foo()."]";
+
 
 function extend_access_token($short_term_access_token){
 	// https://developers.facebook.com/docs/facebook-login/access-tokens#extending
@@ -28,21 +31,26 @@ function extend_access_token($short_term_access_token){
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return output
 	$retrievedhtml = curl_exec ($ch); // execute the curl
 	curl_close($ch); // close the curl
-	echo $retrievedhtml;
-	// $output = explode("\n", $retrievedhtml);
-	// $bearer_token = '';
-	// foreach($output as $line)
-	// {
-	// 	if($line === false)
-	// 	{
-	// 		// there was no bearer token
-	// 	}else{
-	// 		$bearer_token = $line;
-	// 	}
-	// }
-	// $bearer_token = json_decode($bearer_token);
-	// return $bearer_token->{'access_token'};
+	$output = explode("=", $retrievedhtml);
+	$token = explode("&", $output[1])[0];
+	return $token;
 };
+
+function foo(){
+	// https://developers.facebook.com/docs/facebook-login/access-tokens#extending
+	$base_url = HOST."/100010281887017_145461232473272";
+	$access = FB_APP_TOKEN;
+	$formed_params = '?'."access_token=".$access;
+	$formed_url = $base_url.$formed_params;
+	echo "<br/>formed_url: [".$formed_url."]";	
+	$ch = curl_init();  // setup a curl
+	curl_setopt($ch, CURLOPT_URL,$formed_url);  // set url to send to
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return output
+	$retrievedhtml = curl_exec ($ch); // execute the curl
+	curl_close($ch); // close the curl
+	echo "<br/>foo: [".$retrievedhtml."]";	
+};
+
 
 
 function fetch_access_token($path){
