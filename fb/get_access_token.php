@@ -5,7 +5,6 @@ include SECRET_FILE;
 
 // include ROOT.'/shared/errors.php';
 $accessToken = fetch_access_token(TOKEN_FILE);
-// $accessToken = '1624529804474003|D3cf6KRK-zhfvgASwRRfieUqtSw';
 
 function extend_access_token($short_term_access_token){
 	// https://developers.facebook.com/docs/facebook-login/access-tokens#extending
