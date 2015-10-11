@@ -78,7 +78,7 @@ function invalidate_bearer_token($bearer_token){
 
 // get it from file, or from twitter api if file is empty
 function fetch_bearer_token($path){
-	$bearer_token_file = fopen($path, "a+") or die("Unable to open file!");
+	$bearer_token_file = fopen($path, "w+") or die("Unable to open file!");
 	$size = filesize($path);
 	if ($size > 0) {
 		$bearer_token = fread($bearer_token_file,$size);

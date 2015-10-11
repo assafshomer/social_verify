@@ -1,6 +1,5 @@
-*_token.txt
+fb_access_token.txt
+
 *secret*.*
-
-twitter_consumer_data.php
-
+*.old
 vendor/
