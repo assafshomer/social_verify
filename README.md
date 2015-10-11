@@ -45,15 +45,52 @@ Then go to the tweet as it appears on his feed, click on the "copy link to tweet
 ```
 The information we need is just the numeric id that appears at the end of the link.
 #### Metadata
-The asset metadata should include a `verifications` key with tweet text and the following content
+The asset metadata should include a `verifications` key with tweet id with the following syntax:
+```
 "verifications: {
 	"social":{
 		"twitter":{
-			"text": "Verifying issuance of colored coins asset with asset_id: [LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX]",
+			"pid":"<postID>"
+		}
+	}
+}
+```
+In our example this would be
+
+``` 
+"verifications: {
+	"social":{
+		"twitter":{
 			"pid":"651645990554968064"
 		}
 	}
 }
+```
+
+### USE
+The function that does the verification is `twitter_verify_asset($verifications_json)` sitting in `verify_tweet.php`.
+It is expecting a verification json input with the following structure:
+```
+{
+	"social":{
+		"twitter":{
+			"aid": "<assetID>",
+			"pid":"<postID>"
+		}
+}
+```
+In our example this would be
+
+```
+{
+	"social":{
+		"twitter":{
+			"aid": "LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX",
+			"pid":"651645990554968064"
+		}
+}
+```
+Note that the `aid` (short for AssetID) is not included in the metadata because the explorer already knows that.
 
 ### Test
 Open the file `test/networks/twitter_text.php` in your browser
