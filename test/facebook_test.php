@@ -3,8 +3,8 @@
 // include $_SERVER['DOCUMENT_ROOT'].'/verify/shared/errors.php';
 
 include './test_helper.php';
-include $_SERVER['DOCUMENT_ROOT'].'/verify/fb/verify_post.php';
-include $_SERVER['DOCUMENT_ROOT'].'/verify/fb/get_access_token.php';
+include $_SERVER['DOCUMENT_ROOT'].'/verify/facebook/verify_post.php';
+include $_SERVER['DOCUMENT_ROOT'].'/verify/facebook/get_access_token.php';
 // mimicking json from eyal
 $verified_path = './fixtures/verified.json';
 $verified_file = fopen($verified_path, "r") or die("Unable to open file!");
