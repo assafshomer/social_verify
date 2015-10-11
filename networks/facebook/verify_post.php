@@ -58,7 +58,8 @@ function get_expected_text($json){
 
 function fb_verify_asset($verifications_json){
 	$uid = get_uid($verifications_json);
-	$pid = get_pid($verifications_json);	
+	$pid = get_pid($verifications_json);
+	if (!$pid || !$uid) {return false;};		
 	$post_content = parse_post(get_post($uid,$pid));
 	$expected_content = get_expected_text($verifications_json);
 	$check = ($post_content==$expected_content)?TRUE:FALSE;

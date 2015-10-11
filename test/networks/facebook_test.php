@@ -19,6 +19,7 @@ $er = json_decode($post,TRUE)['error']['message'];
 
 $verified_test = (fb_verify_asset($verified_json) == 1) ? PASS:FAIL;
 $unverified_test = (fb_verify_asset($unverified_json) <> 1) ? PASS:FAIL;
+$fake_networks_test = (fb_verify_asset($fake_networks_json) <> 1) ? PASS:FAIL;
 $pid_test = ($pid == 145466885806040) ? PASS:FAIL;
 $uid_test = ($uid == 100010281887017) ? PASS:FAIL;
 $accesstoken_test = (strlen($accesstoken) > 100)? PASS:FAIL;
@@ -33,6 +34,7 @@ $error_test = (preg_match("/Error validating access token/",$er))?FAIL:PASS;
 
 echo "<br/>verified_test: [".$verified_test."]";
 echo "<br/>unverified_test: [".$unverified_test."]";
+echo "<br/>fake_networks_test: [".$fake_networks_test."]";
 echo "<br/>post id from json: [".$pid_test."]";
 echo "<br/>user id from json: [".$uid_test."]";
 echo "<br/>access token from file: [".$accesstoken_test."]";
