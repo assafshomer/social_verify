@@ -1,7 +1,7 @@
 <?php
 
 include 'vars.php';
-include ROOT.'shared/global.php'
+include ROOT.'shared/global.php';
 include SECRET_FILE;
 
 function get_post($uid,$pid){
@@ -53,7 +53,7 @@ function get_expected_text($json){
 	if (strlen($error_message)>0) {
 		return $error_message;
 	} else {
-		return $tmp['social']['facebook']['text'];
+		return PREFIX.' ['.$tmp['social']['facebook']['aid'].']';
 	};
 };
 
