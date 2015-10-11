@@ -1,5 +1,5 @@
-fb_access_token.txt
-twitter_bearer_token.txt
+*access_token*
+twitter_bearer_token*
 
 *secret*.*
 *.old
