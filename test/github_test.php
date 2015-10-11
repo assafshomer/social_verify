@@ -1,6 +1,6 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'].'/verify/shared/errors.php';
+// include $_SERVER['DOCUMENT_ROOT'].'/verify/shared/errors.php';
 
 include './test_helper.php';
 include $_SERVER['DOCUMENT_ROOT'].'/verify/github/verify_gist.php';
@@ -10,7 +10,7 @@ $unverified_json = load_json('unverified');
 $fake_networks_json = load_json('fake_networks');
 
 $pid = get_pid($verified_json);
-$gist = get_gist($pid);
+$gist = get_gist_with_oauth($pid);
 $fu = json_decode($gist,TRUE)['forks_url'];
 $er = json_decode($gist,TRUE)['error']['message'];
 
