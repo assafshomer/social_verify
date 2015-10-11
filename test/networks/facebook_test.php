@@ -1,8 +1,8 @@
 <?php
 
-include './test_helper.php';
-include $_SERVER['DOCUMENT_ROOT'].'/verify/networks/facebook/verify_post.php';
-include $_SERVER['DOCUMENT_ROOT'].'/verify/networks/facebook/get_access_token.php';
+include '../test_helper.php';
+include APP_ROOT.'facebook/verify_post.php';
+include APP_ROOT.'facebook/get_access_token.php';
 // mimicking json from eyal
 $verified_json = load_json('verified');
 $unverified_json = load_json('unverified');

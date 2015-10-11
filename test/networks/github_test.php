@@ -1,7 +1,7 @@
 <?php
 
-include './test_helper.php';
-include $_SERVER['DOCUMENT_ROOT'].'/verify/networks/github/verify_gist.php';
+include '../test_helper.php';
+include APP_ROOT.'github/verify_gist.php';
 // mimicking json from eyal
 $verified_json = load_json('verified');
 $unverified_json = load_json('unverified');

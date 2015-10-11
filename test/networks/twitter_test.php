@@ -1,7 +1,7 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'].'/verify/networks/twitter/verify_twit.php';
-include './test_helper.php';
+include '../test_helper.php';
+include APP_ROOT.'twitter/verify_twit.php';
 // mimicking json from eyal
 $verified_json = load_json('verified');
 $unverified_json = load_json('unverified');
