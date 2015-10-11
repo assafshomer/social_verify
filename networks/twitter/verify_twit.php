@@ -1,6 +1,7 @@
 <?php
 
 include 'vars.php';
+include ROOT.'shared/global.php';
 include 'twitter_get_tokens.php';
 
 function get_raw_tweet_by_id($bearer_token, $tweet_id){
@@ -60,7 +61,7 @@ function get_expected_text($json){
 	if (strlen($error_message)>0) {
 		return $error_message;
 	} else {
-		return $tmp['social']['twitter']['text'];
+		return PREFIX.' ['.$tmp['social']['twitter']['aid'].']';
 	};
 };
 
@@ -70,6 +71,7 @@ function twitter_verify_asset($verifications_json){
 	$check = ($tweet_content==$expected_content)?TRUE:FALSE;
 	// Eyal, I think we should log the following msg
 	$msg = ($check ? 'Asset is verified': 'Asset verification failed. Expected ['.$expected_content.'] but got ['.$tweet_content.']');
+	// echo "<br/>".$msg; 
 	return $check;
 }
 

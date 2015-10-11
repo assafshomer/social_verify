@@ -1,6 +1,7 @@
 <?php
 
 include 'vars.php';
+include ROOT.'shared/global.php'
 include SECRET_FILE;
 
 function get_post($uid,$pid){
