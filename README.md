@@ -12,8 +12,8 @@ The helper file twitter_get_tokens.php reaches out to twitter_api for a bearer t
 * You must add your mobile phone to your Twitter profile before creating an application
 * navigate to https://apps.twitter.com
 * create a new application
-** WEBSITE: http://colu.co
-** Callback URL: <leave blank>
+ * WEBSITE: http://colu.co
+ * Callback URL: <leave blank>
 * Navigate to the "Keys and Access Tokens" tab
 * Save the consumer key and consumer secret in a file networks/twitter/twitter_app_secrets.txt in the following format:
 ```PHP
