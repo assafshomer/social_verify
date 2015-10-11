@@ -1,6 +1,7 @@
 <?php
 
 include 'vars.php';
+include ROOT.'shared/global.php';
 include SECRET_FILE;
 
 function get_gist_no_oauth($pid){
@@ -71,7 +72,7 @@ function get_expected_text($json){
 	if (strlen($error_message)>0) {
 		return $error_message;
 	} else {
-		return $tmp['social']['github']['text'];
+		return PREFIX.' ['.$tmp['social']['github']['aid'].']';
 	};
 };
 
