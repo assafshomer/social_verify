@@ -4,12 +4,7 @@ php libraries for verifying colored coins asset issuance.
 
 ## TWITTER
 
-manually place the following files on the server:
-```
-	networks/twitter/twitter_bearer_token.txt
-	networks/twitter/twitter_app_secrets.txt
-```
-
+### Generate API tokens
 The helper file twitter_get_tokens.php reaches out to twitter_api for a bearer token and caches it locally on twitter_bearer_token.txt
 
 * Open a twitter account
@@ -20,8 +15,9 @@ The helper file twitter_get_tokens.php reaches out to twitter_api for a bearer t
 ** WEBSITE: http://colu.co
 ** Callback URL: <leave blank>
 * Navigate to the "Keys and Access Tokens" tab
-* Save the consumer key and consumer secret in the file networks/twitter/twitter_app_secrets.txt in the following format:
+* Save the consumer key and consumer secret in a file networks/twitter/twitter_app_secrets.txt in the following format:
 ```PHP
+# networks/twitter/twitter_app_secrets.txt
 <?php
 
 define('CONSUMER_KEY', '*****************');
@@ -31,7 +27,10 @@ define('CONSUMER_SECRET', '********************************************');
 
 ```
 * You don't need to creat an access token
-* Make sure the 
+* The bearer_token files (initially empty) is required
+
+### Test
+Open the file `test/networks/twitter_text.php` in your browser
 
 
 
