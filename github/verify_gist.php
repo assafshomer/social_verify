@@ -3,7 +3,8 @@
 include 'vars.php';
 include SECRET_FILE;
 
-function get_gist($pid){
+function get_gist_no_oauth($pid){
+	// this works but is limited to 60 calls/h https://developer.github.com/v3/#rate-limiting
 	$endpoint = '/gists/'.$pid;
 	$formed_url = HOST.$endpoint;
 	// echo "<br/>apiurl: [".$formed_url."]";
@@ -11,6 +12,27 @@ function get_gist($pid){
 		"GET ".$endpoint." HTTP/1.1", 
 		"Host: ".HOST.'/gists/', 
 		"User-Agent: Colu Asset Verificator"
+	);	
+	$ch = curl_init(); 
+	curl_setopt($ch, CURLOPT_URL,$formed_url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+	$retrievedhtml = curl_exec ($ch);
+	curl_close($ch);
+	// echo $retrievedhtml; 
+	return $retrievedhtml;		
+};
+
+function get_gist_with_oauth($pid){
+	// limited to 5000 calls/h https://developer.github.com/v3/#rate-limiting
+	$endpoint = '/gists/'.$pid;
+	$formed_url = HOST.$endpoint;
+	// echo "<br/>apiurl: [".$formed_url."]";
+	$headers = array( 
+		"GET ".$endpoint." HTTP/1.1", 
+		"Host: ".HOST.'/gists/', 
+		"User-Agent: Colu Asset Verificator",
+		"Authorization: token ".GITHUB_PERSONAL_TOKEN
 	);	
 	$ch = curl_init(); 
 	curl_setopt($ch, CURLOPT_URL,$formed_url);
@@ -56,7 +78,8 @@ function get_expected_text($json){
 function github_verify_asset($verifications_json){
 	$pid = get_pid($verifications_json);
 	if (!$pid) {return false;};	
-	$gist_content = parse_gist(get_gist($pid));
+	// $gist_content = parse_gist(get_gist_no_oauth($pid));
+	$gist_content = parse_gist(get_gist_with_oauth($pid));
 	$expected_content = get_expected_text($verifications_json);
 	$check = ($gist_content==$expected_content)?TRUE:FALSE;
 	// Eyal, I think we should log the following msg

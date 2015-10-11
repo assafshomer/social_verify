@@ -5,7 +5,7 @@ include SECRET_FILE;
 include ROOT.'/shared/errors.php';
 
 get_basic_auth();
-get_auth();
+// get_auth();
 
 function get_access_token(){
 	$endpoint = '/authorizations/clients/'.GITHUB_CLIENT_ID;
