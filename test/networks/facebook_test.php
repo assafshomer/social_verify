@@ -26,6 +26,7 @@ $unverified_test = (fb_verify_asset($unverified_json) <> 1) ? PASS:FAIL;
 $fake_networks_test = (fb_verify_asset($fake_networks_json) <> 1) ? PASS:FAIL;
 $another_user_test = (fb_verify_asset($user2_json) == 1) ? PASS:FAIL;
 $third_user_test = (fb_verify_asset($user3_json) == 1) ? PASS:FAIL;
+$another_token_test = (fb_verify_asset_with_token($verified_json,FB_APP_TOKEN_2) == 1) ? PASS:FAIL;
 
 $pid_test = ($pid == 486035954907151) ? PASS:FAIL;
 $uid_test = ($uid == 1232952150) ? PASS:FAIL;
@@ -42,6 +43,9 @@ echo "<br/>unverified_test: [".$unverified_test."]";
 echo "<br/>fake_networks_test: [".$fake_networks_test."]";
 echo "<br/>another_user_test: [".$another_user_test."]";
 echo "<br/>third_user_test: [".$third_user_test."]";
+echo "<br/>another_token_test: [".$another_token_test."]";
+
+echo "<hr/>";
 
 echo "<br/>post id from json: [".$pid_test."]";
 echo "<br/>user id from json: [".$uid_test."]";

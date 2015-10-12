@@ -4,18 +4,18 @@ include 'vars.php';
 include ROOT.'shared/global.php';
 include SECRET_FILE;
 
-function get_post($uid,$pid){
-	$endpoint = '/'.$uid.'_'.$pid;
-	$url = HOST.$endpoint;
-	$params = '?access_token='.FB_APP_TOKEN;
-	$formed_url = $url.$params;
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL,$formed_url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	$retrievedhtml = curl_exec ($ch);
-	curl_close($ch); 
-	return $retrievedhtml;		
-};
+// function get_post($uid,$pid){
+// 	$endpoint = '/'.$uid.'_'.$pid;
+// 	$url = HOST.$endpoint;
+// 	$params = '?access_token='.FB_APP_TOKEN;
+// 	$formed_url = $url.$params;
+// 	$ch = curl_init();
+// 	curl_setopt($ch, CURLOPT_URL,$formed_url);
+// 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// 	$retrievedhtml = curl_exec ($ch);
+// 	curl_close($ch); 
+// 	return $retrievedhtml;		
+// };
 
 function get_post_with_token($uid,$pid,$token){
 	$endpoint = '/'.$uid.'_'.$pid;
@@ -28,6 +28,10 @@ function get_post_with_token($uid,$pid,$token){
 	$retrievedhtml = curl_exec ($ch);
 	curl_close($ch); 
 	return $retrievedhtml;		
+};
+
+function get_post($uid,$pid){
+	return 	get_post_with_token($uid,$pid,FB_APP_TOKEN);
 };
 
 function parse_post($raw_post){
@@ -71,13 +75,14 @@ function get_expected_text($json){
 };
 
 function fb_verify_asset($verifications_json){
+	return fb_verify_asset_with_token($verifications_json,FB_APP_TOKEN);
+};
+
+function fb_verify_asset_with_token($verifications_json,$token){
 	$uidx = get_uid($verifications_json);
 	$pidx = get_pid($verifications_json);
 	if (!$pidx || !$uidx) {return false;};
-	// echo "<br/>uid: [".$uidx."]"; 		
-	// echo "<br/>pidx: [".$pidx."]";
-	$postx = get_post($uidx,$pidx);
-	// echo "<br/>post: [".$post."]"; 		
+	$postx = get_post_with_token($uidx,$pidx,$token);
 	$post_contentx = parse_post($postx);
 	$expected_contentx = get_expected_text($verifications_json);
 	$check = ($post_contentx==$expected_contentx)?TRUE:FALSE;
@@ -87,6 +92,6 @@ function fb_verify_asset($verifications_json){
 		echo "<br/>msg: [".$msg."]";
 	};
 	return $check;
-}
+};
 
 ?>
