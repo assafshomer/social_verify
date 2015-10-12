@@ -7,8 +7,8 @@ include APP_ROOT.'facebook/verify_post.php';
 $verified_json = load_json('verified');
 $unverified_json = load_json('unverified');
 $fake_networks_json = load_json('fake_networks');
-$post_1_json = load_json('fb_1');
-$post_2_json = load_json('fb_2');
+$user2_json = load_json('user2');
+$user3_json = load_json('user3');
 
 $pid = get_pid($verified_json);
 $uid = get_uid($verified_json);
@@ -24,8 +24,8 @@ $er = json_decode($post,TRUE)['error']['message'];
 $verified_test = (fb_verify_asset($verified_json) == 1) ? PASS:FAIL;
 $unverified_test = (fb_verify_asset($unverified_json) <> 1) ? PASS:FAIL;
 $fake_networks_test = (fb_verify_asset($fake_networks_json) <> 1) ? PASS:FAIL;
-$another_user_test = (fb_verify_asset($post_1_json) <> 1) ? PASS:FAIL;
-$same_user_test = (fb_verify_asset($post_2_json) <> 1) ? PASS:FAIL;
+$another_user_test = (fb_verify_asset($user2_json) == 1) ? PASS:FAIL;
+$third_user_test = (fb_verify_asset($user3_json) == 1) ? PASS:FAIL;
 
 $pid_test = ($pid == 486035954907151) ? PASS:FAIL;
 $uid_test = ($uid == 1232952150) ? PASS:FAIL;
@@ -41,7 +41,7 @@ echo "<br/>verified_test: [".$verified_test."]";
 echo "<br/>unverified_test: [".$unverified_test."]";
 echo "<br/>fake_networks_test: [".$fake_networks_test."]";
 echo "<br/>another_user_test: [".$another_user_test."]";
-echo "<br/>same_user_test: [".$same_user_test."]";
+echo "<br/>third_user_test: [".$third_user_test."]";
 
 echo "<br/>post id from json: [".$pid_test."]";
 echo "<br/>user id from json: [".$uid_test."]";
@@ -52,7 +52,12 @@ echo "<br/>post content: [".$content_test."]";
 echo "<br/>error test: [".$error_test."]";
 
 // AUX OUTPUTS
-echo "<br/>uid: [".get_uid($post_2_json)."]";
+// $another_user_pid = get_pid($user2_json);
+// $another_user_uid = get_uid($user2_json);
+// echo "<br/>uid2: [".$another_user_uid."]";
+// echo "<br/>pid2: [".$another_user_pid."]";
+// echo "<br/>eyal: [".get_post(592742439,486093101568103)."]";
+// // echo "<br/>another_user_post: [".get_post((int)$another_user_uid,(int)$another_user_pid)."]";
 
 $print_error=($error_test==FAIL)?"<br/>error: [".$er."]":'';
 	echo $print_error;
