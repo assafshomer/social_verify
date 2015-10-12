@@ -25,7 +25,8 @@ $verified_test = (fb_verify_asset($verified_json) == 1) ? PASS:FAIL;
 $unverified_test = (fb_verify_asset($unverified_json) <> 1) ? PASS:FAIL;
 $fake_networks_test = (fb_verify_asset($fake_networks_json) <> 1) ? PASS:FAIL;
 $another_user_test = (fb_verify_asset($post_1_json) <> 1) ? PASS:FAIL;
-// $same_user_test = (fb_verify_asset($post_2_json) <> 1) ? PASS:FAIL;
+$same_user_test = (fb_verify_asset($post_2_json) <> 1) ? PASS:FAIL;
+
 $pid_test = ($pid == 486035954907151) ? PASS:FAIL;
 $uid_test = ($uid == 1232952150) ? PASS:FAIL;
 $expected_text = (preg_match("/LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX/",get_expected_text($verified_json)))?PASS:FAIL;
@@ -51,7 +52,7 @@ echo "<br/>post content: [".$content_test."]";
 echo "<br/>error test: [".$error_test."]";
 
 // AUX OUTPUTS
-// echo "<br/>post: [".$post."]";
+echo "<br/>uid: [".get_uid($post_2_json)."]";
 
 $print_error=($error_test==FAIL)?"<br/>error: [".$er."]":'';
 	echo $print_error;

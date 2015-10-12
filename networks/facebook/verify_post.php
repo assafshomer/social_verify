@@ -76,11 +76,11 @@ function fb_verify_asset($verifications_json){
 	if (!$pidx || !$uidx) {return false;};
 	// echo "<br/>uid: [".$uidx."]"; 		
 	// echo "<br/>pidx: [".$pidx."]";
-	$post = get_post($uidx,$pidx);
+	$postx = get_post($uidx,$pidx);
 	// echo "<br/>post: [".$post."]"; 		
-	$post_content = parse_post($post);
-	$expected_content = get_expected_text($verifications_json);
-	$check = ($post_content==$expected_content)?TRUE:FALSE;
+	$post_contentx = parse_post($postx);
+	$expected_contentx = get_expected_text($verifications_json);
+	$check = ($post_contentx==$expected_contentx)?TRUE:FALSE;
 	// Eyal, I think we should log the following msg
 	// if (!$check) {
 	// 	$msg = ($check ? 'Asset is verified': 'Asset verification failed. Expected ['.$expected_content.'] but got ['.$post_content.']');

@@ -151,7 +151,6 @@ For example
 </pre>
 * The Post ID (or Story ID) is the first number `486035954907151`
 * Finally, we also need your facebook user ID (or Profile ID). You can get that by visiting [this service](http://findmyfbid.com/).
-* 
 
 #### Metadata
 The asset metadata should include a `verifications` key with `postID` and `userID` in the following syntax:
