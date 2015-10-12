@@ -9,10 +9,23 @@ function get_post($uid,$pid){
 	$url = HOST.$endpoint;
 	$params = '?access_token='.FB_APP_TOKEN;
 	$formed_url = $url.$params;
-	$ch = curl_init();  // setup a curl
-	curl_setopt($ch, CURLOPT_URL,$formed_url);  // set url to send to
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return output
-	$retrievedhtml = curl_exec ($ch); // execute the curl
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL,$formed_url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$retrievedhtml = curl_exec ($ch);
+	curl_close($ch); 
+	return $retrievedhtml;		
+};
+
+function get_post_with_token($uid,$pid,$token){
+	$endpoint = '/'.$uid.'_'.$pid;
+	$url = HOST.$endpoint;
+	$params = '?access_token='.$token;
+	$formed_url = $url.$params;
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL,$formed_url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$retrievedhtml = curl_exec ($ch);
 	curl_close($ch); 
 	return $retrievedhtml;		
 };
