@@ -143,7 +143,7 @@ For example
 * After posting you will be redirected to your post
 * Right click on the Timestamp link on the post (right below your user name) and extract the Post ID by selecting "copy link address" 
 
-![Alt text](/images/fb_story_id.png?raw=true "Extracting the post ID")
+![Alt text](/shared/images/fb_story_id.png?raw=true "Extracting the post ID")
 
 * The link address will look something like:
 <pre>
