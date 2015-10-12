@@ -17,6 +17,19 @@ function get_post($uid,$pid){
 	return $retrievedhtml;		
 };
 
+// function get_post_no_id($pid){
+// 	$endpoint = '/'.$pid;
+// 	$url = HOST.$endpoint;
+// 	$params = '?access_token='.FB_APP_TOKEN;
+// 	$formed_url = $url.$params;
+// 	$ch = curl_init();  // setup a curl
+// 	curl_setopt($ch, CURLOPT_URL,$formed_url);  // set url to send to
+// 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return output
+// 	$retrievedhtml = curl_exec ($ch); // execute the curl
+// 	curl_close($ch); 
+// 	return $retrievedhtml;		
+// };
+
 function parse_post($raw_post){
 	$tmp = json_decode($raw_post,TRUE);
 	$error_message = $tmp['errors'][0]['message'];
@@ -58,15 +71,21 @@ function get_expected_text($json){
 };
 
 function fb_verify_asset($verifications_json){
-	$uid = get_uid($verifications_json);
-	$pid = get_pid($verifications_json);
-	if (!$pid || !$uid) {return false;};		
-	$post_content = parse_post(get_post($uid,$pid));
+	$uidx = get_uid($verifications_json);
+	$pidx = get_pid($verifications_json);
+	if (!$pidx || !$uidx) {return false;};
+	// echo "<br/>uid: [".$uidx."]"; 		
+	// echo "<br/>pidx: [".$pidx."]";
+	$post = get_post($uidx,$pidx);
+	// echo "<br/>post: [".$post."]"; 		
+	$post_content = parse_post($post);
 	$expected_content = get_expected_text($verifications_json);
 	$check = ($post_content==$expected_content)?TRUE:FALSE;
 	// Eyal, I think we should log the following msg
-	// $msg = ($check ? 'Asset is verified': 'Asset verification failed. Expected ['.$expected_content.'] but got ['.$post_content.']');
-	// echo "<br/>msg: [".$msg."]";
+	// if (!$check) {
+	// 	$msg = ($check ? 'Asset is verified': 'Asset verification failed. Expected ['.$expected_content.'] but got ['.$post_content.']');
+	// 	echo "<br/>msg: [".$msg."]";
+	// }
 	return $check;
 }
 
