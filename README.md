@@ -228,7 +228,7 @@ To verify an asset with e.g. asset id `LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX` th
 #### Create a public gist
 The user should create a public gist with the following text
 ```
-	"Verifying issuance of colored coins asset with asset_id: [LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX]"
+	"Verifying issuance of colored coins asset with asset_id: [<assetID>]"
 ```
 
 ![Alt text](/shared/images/public_gist.png?raw=true "Creating a public Gist")
