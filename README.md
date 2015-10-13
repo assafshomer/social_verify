@@ -18,10 +18,8 @@ The helper file twitter_get_tokens.php reaches out to twitter_api for a bearer t
 ```PHP
 # networks/twitter/twitter_app_secrets.php
 <?php
-
 	define('CONSUMER_KEY', '*****************');
 	define('CONSUMER_SECRET', '********************');
-
 ?>
 
 ```
@@ -116,9 +114,7 @@ Open `test/networks/twitter_text.php` in your browser.
 ```PHP
 # networks/facebook/fb_app_secrets.txt
 <?php
-
 	define('FB_APP_TOKEN', '**************|************');
-
 ?>
 
 ```
@@ -218,9 +214,7 @@ Open `test/networks/facebook_text.php` in your browser.
 ```PHP
 # networks/twitter/twitter_app_secrets.php
 <?php
-
 	define('GITHUB_PERSONAL_TOKEN', '*****************');
-
 ?>
 
 ```
@@ -228,7 +222,7 @@ Open `test/networks/facebook_text.php` in your browser.
 
 ### JSON
 To verify an asset with e.g. asset id `LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX` the user should 
-* Post a [gist](https://help.github.com/articles/about-gists/)
+* Post a [public gist](https://help.github.com/articles/about-gists/)
 * Add something to the asset metadata
 
 #### Create a public gist
@@ -236,6 +230,9 @@ The user should create a public gist with the following text
 ```
 	"Verifying issuance of colored coins asset with asset_id: [LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX]"
 ```
+
+![Alt text](/shared/images/public_gist.png?raw=true "Creating a public Gist")
+
 * You can name the gist however you want.
 * Grab the gist ID `6c704f5759927212e714` either from the name of the gist <pre>gist:<b>6c704f5759927212e714</b></pre> or the url <pre>https://gist.github.com/assafshomer/<b>6c704f5759927212e714</b></pre>
 
