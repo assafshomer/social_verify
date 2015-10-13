@@ -2,7 +2,7 @@
 
 php libraries for verifying colored coins asset issuance.
 
-## TWITTER
+## Twitter
 
 ### Generate API tokens
 The helper file twitter_get_tokens.php reaches out to twitter_api for a bearer token and caches it locally on twitter_bearer_token.txt
@@ -97,7 +97,7 @@ Open `test/networks/twitter_text.php` in your browser.
 
 
 
-## FACEBOOK
+## Facebook
 ### Generate API token
 * Creat an account and sign in
 * Navigate to https://developers.facebook.com/
@@ -206,3 +206,86 @@ Note that the `aid` (short for AssetID) is not included in the metadata because 
 
 ### Test
 Open `test/networks/facebook_text.php` in your browser.
+
+## Github
+### [Generate API token](https://help.github.com/articles/creating-an-access-token-for-command-line-use/)
+* Create an [account](https://github.com/coloredcoinsassetverification) on Github
+* In the top right corner of any page, click your profile photo, then click **Settings**.
+* In the user settings sidebar, click **Personal access tokens**.
+* Click **Generate new token** and name it.
+* Use the default scope, this is enough to read gists which is all we need.
+* Copy the token to your clipboard and save it a file `networks/github/github_app_secrets.php` in the following format:
+```PHP
+# networks/twitter/twitter_app_secrets.php
+<?php
+
+	define('GITHUB_PERSONAL_TOKEN', '*****************');
+
+?>
+
+```
+* This token is [limited](https://developer.github.com/v3/#rate-limiting) to 5000 calls/hour. 
+
+### JSON
+To verify an asset with e.g. asset id `LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX` the user should 
+* Post a [gist](https://help.github.com/articles/about-gists/)
+* Add something to the asset metadata
+
+#### Create a public gist
+The user should create a public gist with the following text
+```
+	"Verifying issuance of colored coins asset with asset_id: [LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX]"
+```
+* You can name the gist however you want.
+* Grab the gist ID `6c704f5759927212e714` either from the name of the gist <pre>gist:<b>6c704f5759927212e714</b></pre> or the url <pre>https://gist.github.com/assafshomer/<b>6c704f5759927212e714</b></pre>
+
+#### Metadata
+The asset metadata should include a `verifications` key with gist id with the following syntax:
+```
+"verifications: {
+	"social":{
+		"github":{
+			"pid":"<gistID>"
+		}
+	}
+}
+```
+In our example this would be
+
+``` 
+"verifications: {
+	"social":{
+		"github":{
+			"pid":"6c704f5759927212e714"
+		}
+	}
+}
+```
+
+### USE
+The function that does the verification is `github_verify_asset($verifications_json)` sitting in `verify_gist.php`.
+It is expecting a verification json input with the following structure:
+```
+{
+	"social":{
+		"github":{
+			"aid":"<assetID>",
+			"pid":"<postID>"
+		}
+}
+```
+In our example this would be
+
+```
+{
+	"social":{
+		"github":{
+			"aid":"LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX",
+			"pid":"6c704f5759927212e714"
+		}
+}
+```
+Note that the `aid` (short for AssetID) is not included in the metadata because the explorer already knows that.
+
+### Test
+Open `test/networks/github_text.php` in your browser.
