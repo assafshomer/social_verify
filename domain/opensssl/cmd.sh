@@ -10,5 +10,6 @@ CERT=$FP'swarm.txt'
 
 # openssl verify -verbose -purpose sslserver -CAfile $CACERT $CERT
 
-OCSP - URI:http://sr.symcd.com
+S='OCSP - URI:http://sr.symcd.com'
+
 ${BASH_REMATCH[1]}
