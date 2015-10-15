@@ -4,3 +4,5 @@ scratch*
 *secret*.*
 *.old
 vendor/
+domain/openssl/level*.crt
+domain/openssl/aia*.txt

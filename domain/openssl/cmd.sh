@@ -33,15 +33,17 @@
 # 	fi
 # done
 
-q='{';
-for i in level?.crt; do
-	I=$(echo "$i" | sed -e s/[^0-9]//g);
-	q=$q$(($I+1))','
-done
-q='level'${q::-1}'}.crt'
-cmd='cat /etc/ssl/certs/ca-certificates.crt '$q' > CAbundle.crt'
-echo $cmd
+# q='{';
+# for i in level?.crt; do
+# 	I=$(echo "$i" | sed -e s/[^0-9]//g);
+# 	q=$q$(($I+1))','
+# done
+# q='level'${q::-3}'}.crt'
+# cmd='cat /etc/ssl/certs/ca-certificates.crt '$q' > CAbundle.crt'
+# echo $cmd
 
-foo=1
-declare "magic_variable_$foo"=2
-echo $magic_variable_1
+# foo=1
+# declare "magic_variable_$foo"=2
+# echo $magic_variable_1
+
+printf "foo\nbar"

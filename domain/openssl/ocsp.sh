@@ -1,13 +1,16 @@
 #!/bin/bash
 # http://backreference.org/2010/05/09/ocsp-verification-with-openssl/
 
-URL='https://bankofamerica.com';
+# extract domain from url
+URL='https://www.square.com';
 if [[ $URL =~ https://(.+)$ ]]; then
  DOMAIN=${BASH_REMATCH[1]};
 fi;
-echo "Processing domain ["$DOMAIN"]";
+printf "Processing domain ["$DOMAIN"]\n*******************************************\n";
+
 # copy the system CA certificates file for local use
 cat /etc/ssl/certs/ca-certificates.crt > CAbundle.crt;
+
 # import the certificate chain to files level0.crt, level1.crt etc
 openssl s_client -showcerts -connect \
 $DOMAIN:443 -CAfile CAbundle.crt < /dev/null | \
@@ -22,14 +25,15 @@ for i in level?.crt; do
 done
 
 # grab Authority information access url from certificates and save to aia#.txt
+printf "Authority Information Access urls\n****************************************\n"
 for i in level?.crt; do
 	I=$(echo "$i" | sed -e s/[^0-9]//g); 
-	echo "processing [$i]:"; 
-	OUTPUT=$(openssl x509 -noout -text -in "$i" | grep OCSP);
-	if [[ $OUTPUT =~ URI:(.+)$ ]]; then
-			AIA=${BASH_REMATCH[1]};
-	    echo "Authority Information Access url: ["$AIA"]";
-	    echo $AIA > "aia"$I".txt";
+	# echo "processing [$i]:"; 
+	output=$(openssl x509 -noout -text -in "$i" | grep OCSP);
+	if [[ $output =~ URI:(.+)$ ]]; then
+			aia=${BASH_REMATCH[1]};
+	    echo $i" : ["$aia"]";
+	    echo $aia > "aia"$I".txt";
 	else
 	    echo "Authority Information Access url: []"
 	fi
@@ -41,35 +45,22 @@ for i in level?.crt; do
 	I=$(echo "$i" | sed -e s/[^0-9]//g);
 	q=$q$(($I+1))','
 done
-q='level'${q::-1}'}.crt'
+q='level'${q::-3}'}.crt'
 cmd='cat /etc/ssl/certs/ca-certificates.crt '$q' > CAbundle.crt'
-echo $cmd
 eval $cmd
-# cat /etc/ssl/certs/ca-certificates.crt "$q" > CAbundle.crt
 
+# verifying the chain 
 for i in level?.crt; do
 	I=$(echo "$i" | sed -e s/[^0-9]//g)	
 	for j in level?.crt; do
 		J=$(echo "$j" | sed -e s/[^0-9]//g)
   	if [ "$J" -eq $(($I+1)) ]; then
-			echo "$i,$j"			
-			AIAURL=$(cat aia$I.txt)
-			echo $AIAURL
+			printf "**********************\nVerifying Level ["$I"]\n----------------------\n"
+			aiaurl=$(cat aia$I.txt)
+			echo "OCSP URL ["$aiaurl"]";
 			serial=$(openssl x509 -serial -noout -in $i); 
 			serial=${serial#*=};
-			openssl ocsp -issuer $j -nonce -CAfile CAbundle.crt -url $AIAURL -serial "0x${serial}"
+			openssl ocsp -issuer $j -CAfile CAbundle.crt -url $aiaurl -serial "0x${serial}"
 		fi		
 	done
 done
-
-# cat /etc/ssl/certs/ca-certificates.crt level2.crt > CAbundle.crt
-# AIAURL='http://ocsp.globalsign.com/rootr1';
-
-# l1serial=$(openssl x509 -serial -noout -in level1.crt); l1serial=${l1serial#*=}
-# openssl ocsp -issuer level2.crt -nonce -CAfile CAbundle.crt -url $AIAURL -serial "0x${l1serial}"
-# cat /etc/ssl/certs/ca-certificates.crt level{1,2,3}.crt > CAbundle.crt
-
-# l0serial=$(openssl x509 -serial -noout -in level0.crt); 
-# l0serial=${l0serial#*=};
-# echo "l0 serial:"$l0serial;
-# openssl ocsp -issuer level1.crt -nonce -CAfile CAbundle.crt -url http://sr.symcd.com/ -serial "0x"$l0serial;
