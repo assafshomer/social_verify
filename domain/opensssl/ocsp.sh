@@ -10,10 +10,17 @@
 
 # for i in level?.crt; do echo "$i:"; openssl x509 -noout -text -in "$i" | grep OCSP; done
 
-for i in level?.crt; do echo "$i:"; openssl x509 -noout -text -in "$i" | grep OCSP; done
+for i in level?.crt; do 
+	echo "processing [$i]:"; 
+	OUTPUT=$(openssl x509 -noout -text -in "$i" | grep OCSP);
+	if [[ $OUTPUT =~ URI:(.+)$ ]]; then
+	    echo "Authority Information Access url: ["${BASH_REMATCH[1]}"]"
+	else
+	    echo "Authority Information Access url: []"
+	fi
+done
 
-OCSP - URI:http://sr.symcd.com
-${BASH_REMATCH[1]}
+
 
 
 # for i in level?.crt; do echo "$i" > max.txt; done
