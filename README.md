@@ -90,7 +90,7 @@ In our example this would be
 Note that the `aid` (short for AssetID) is not included in the metadata because the explorer already knows that.
 
 ### Test
-Open `test/networks/twitter_text.php` in your browser.
+Open `test/networks/twitter_test.php` in your browser.
 
 
 
@@ -201,7 +201,7 @@ In our example this would be
 Note that the `aid` (short for AssetID) is not included in the metadata because the explorer already knows it.
 
 ### Test
-Open `test/networks/facebook_text.php` in your browser.
+Open `test/networks/facebook_test.php` in your browser.
 
 ## Github
 ### [Generate API token](https://help.github.com/articles/creating-an-access-token-for-command-line-use/)
@@ -285,4 +285,4 @@ In our example this would be
 Note that the `aid` (short for AssetID) is not included in the metadata because the explorer already knows that.
 
 ### Test
-Open `test/networks/github_text.php` in your browser.
+Open `test/networks/github_test.php` in your browser.
