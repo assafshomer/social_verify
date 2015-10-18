@@ -7,7 +7,7 @@ if [[ $URL =~ https://(.+)$ ]]; then
  DOMAIN=${BASH_REMATCH[1]};
 fi;
 printf "Processing domain ["$DOMAIN"]\n*******************************************\n";
-
+cd ${0%/*}
 # remove auxiliary files
 rm aia*.txt > /dev/nul;
 rm level*.crt > /dev/nul;
