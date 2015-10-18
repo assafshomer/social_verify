@@ -52,8 +52,18 @@ echo "$@"
 echo "$1"
 echo level*.crt
 
+
 for i in level?.crt; do
-	printf "**************************\nInspecting "$i" cert \n-------------------------\n"
-	openssl x509 -noout -serial -subject -issuer -dates -in "$i"; 
-	echo; 
+	echo I=$(echo "$i" | sed -e s/[^0-9]//g)	
+done
+
+# print the number of files
+for i in level?.crt; do
+	I=$(echo "$i" | sed -e s/[^0-9]//g)	
+	for j in level?.crt; do
+		J=$(echo "$j" | sed -e s/[^0-9]//g)
+	done;
+	if [[ "$I" -eq "$J" ]]; then
+		echo "max is "$J
+	fi
 done
