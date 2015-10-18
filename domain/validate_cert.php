@@ -21,10 +21,12 @@ include('phpseclib/File/X509.php');
 // define('CA_CERT_PATH','/etc/ssl/certs/ca-certificates.crt');
 
 // http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt
-define('CA_CERT_PATH','fixtures/cacert.pem');
+define('CA_CERT_PATH','openssl/CAbundle.crt');
 
-define('CERT_PATH','fixtures/swarm.txt');
+// define('CERT_PATH','fixtures/swarm.txt');
 // define('URL','https://www.bankofamerica.com/');
+
+define('CERT_PATH','fixtures/DigiCertSHA2ExtendedValidationServerCA.crt');
 
 $x509 = new File_X509();
 $x509->loadCA(file_get_contents(CA_CERT_PATH));

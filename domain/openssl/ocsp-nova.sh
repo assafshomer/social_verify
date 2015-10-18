@@ -69,7 +69,7 @@ for i in level?.crt; do
 			echo "OCSP URL ["$aiaurl"]";
 			serial=$(openssl x509 -serial -noout -in $i); 
 			serial=${serial#*=};
-			openssl ocsp -issuer $j -CAfile CAbundle.crt -VAfile CAbundle.crt -url $aiaurl -serial "0x${serial}"
+			openssl ocsp -issuer $j -CAfile CAbundle.crt -url $aiaurl -serial "0x${serial}"
 		fi		
 	done
 done

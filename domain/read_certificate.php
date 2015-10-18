@@ -4,7 +4,7 @@ include('phpseclib/File/X509.php');
 
 
 // define('CERT_PATH','fixtures/google.txt');
-define('CERT_PATH','fixtures/swarm.txt');
+define('CERT_PATH','fixtures/DigiCertSHA2ExtendedValidationServerCA.crt');
 // define('CERT_PATH','fixtures/.txt');
 
 
