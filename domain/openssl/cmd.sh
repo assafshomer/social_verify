@@ -33,17 +33,27 @@
 # 	fi
 # done
 
-q='{0,';
+# q='{0,';
+# for i in level?.crt; do
+# 	I=$(echo "$i" | sed -e s/[^0-9]//g);
+# 	q=$q$(($I+1))','
+# done
+# q='level'${q::-3}'}.crt'
+# cmd='cat /etc/ssl/certs/ca-certificates.crt '$q' > CAbundle.crt'
+# echo $cmd
+
+# # foo=1
+# # declare "magic_variable_$foo"=2
+# # echo $magic_variable_1
+
+# printf "foo\nbar"
+
+echo "$@"
+echo "$1"
+echo level*.crt
+
 for i in level?.crt; do
-	I=$(echo "$i" | sed -e s/[^0-9]//g);
-	q=$q$(($I+1))','
+	printf "**************************\nInspecting "$i" cert \n-------------------------\n"
+	openssl x509 -noout -serial -subject -issuer -dates -in "$i"; 
+	echo; 
 done
-q='level'${q::-3}'}.crt'
-cmd='cat /etc/ssl/certs/ca-certificates.crt '$q' > CAbundle.crt'
-echo $cmd
-
-# foo=1
-# declare "magic_variable_$foo"=2
-# echo $magic_variable_1
-
-printf "foo\nbar"

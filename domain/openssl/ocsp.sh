@@ -9,8 +9,8 @@ fi;
 printf "Processing domain ["$DOMAIN"]\n*******************************************\n";
 
 # remove auxiliary files
-rm aia*.txt
-rm level*.crt
+rm aia*.txt > /dev/null;
+rm level*.crt > /dev/null;
 
 # define the name of the certificates file
 CAF='CAbundle.crt';

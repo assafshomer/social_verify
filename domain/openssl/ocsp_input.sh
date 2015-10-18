@@ -2,26 +2,29 @@
 # http://backreference.org/2010/05/09/ocsp-verification-with-openssl/
 
 # extract domain from url
-URL='https://bankofamerica.com';
+URL='$1';
 if [[ $URL =~ https://(.+)$ ]]; then
  DOMAIN=${BASH_REMATCH[1]};
 fi;
 printf "Processing domain ["$DOMAIN"]\n*******************************************\n";
 
 # remove auxiliary files
-rm aia*.txt
-rm level*.crt
+rm aia*.txt > /dev/nul;
+rm level*.crt > /dev/nul;
+
+# define the name of the certificates file
+CAF='CAbundle.crt';
 
 # copy the system CA certificates file for local use
-cat /etc/ssl/certs/ca-certificates.crt > CAbundle.crt;
+cat /etc/ssl/certs/ca-certificates.crt > $CAF;
 
 # add Automatically converted CA Certs from mozilla.org from  https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt
 wget -O mozbunle.crt https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt
-cat mozbunle.crt >> CAbundle.crt;
+cat mozbunle.crt >> $CAF;
 
 # import the certificate chain to files level0.crt, level1.crt etc
 openssl s_client -showcerts -connect \
-$DOMAIN:443 -CAfile CAbundle.crt < /dev/null | \
+$DOMAIN:443 -CAfile $CAF < /dev/null | \
 awk -v c=-1 '/-----BEGIN CERTIFICATE-----/{inc=1;c++} 
              inc {print > ("level" c ".crt")}
              /---END CERTIFICATE-----/{inc=0}'
@@ -55,7 +58,7 @@ for i in level?.crt; do
 	q=$q$(($I+1))','
 done
 q='level'${q::-3}'}.crt'
-cmd='cat /etc/ssl/certs/ca-certificates.crt '$q' > CAbundle.crt'
+cmd='cat /etc/ssl/certs/ca-certificates.crt '$q' > '$CAF
 eval $cmd
 
 # verifying the chain 
@@ -69,7 +72,7 @@ for i in level?.crt; do
 			echo "OCSP URL ["$aiaurl"]";
 			serial=$(openssl x509 -serial -noout -in $i); 
 			serial=${serial#*=};
-			openssl ocsp -issuer $j -CAfile CAbundle.crt -url $aiaurl -serial "0x${serial}"
+			openssl ocsp -issuer $j -CAfile $CAF -VAfile $CAF -url $aiaurl -serial "0x${serial}"
 		fi		
 	done
 done
