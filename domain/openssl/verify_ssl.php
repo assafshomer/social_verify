@@ -1,27 +1,19 @@
-<?php
-		$embedded_url = 'https://www.bankofamerica.com';
+<?php	
 
-		$certificate_chain_length = load_certificate_chain($embedded_url);
+	$embedded_url = 'https://www.bankofamerica.com';
+	$result = verify_domain($embedded_url);
+	var_dump($result);
+
+	function verify_domain($url){		
+		$certificate_chain_length = load_certificate_chain($url);
 		$result_array = get_chain_verification_results($certificate_chain_length);
-		$verification_result = verify_chain($result_array)?"PASS\n":"FAIL\n";
+		$verification_result = verify_chain($result_array)?"PASS":"FAIL";
 		$result = get_company_data();
 		$result['verification_result']=$verification_result;
-		$url_matching = ($result['company_url'] == get_domain_from_url($embedded_url))?'TRUE':'false';		
-		$result['url_matching']= $url_matching;
-		var_dump($result);
-
-	function verify_domain($verification_json){
-		$embedded_url = get_url($verifications_json);
-		$certificate_chain_length = load_certificate_chain($embedded_url);
-		$result_array = get_chain_verification_results($certificate_chain_length);
-		$verification_result = verify_chain($result_array)?"PASS\n":"FAIL\n";
-		$result = get_company_data();
-		$result['verification_result']=$verification_result;
-		$url_matching = ($result['company_url'] == get_domain_from_url($embedded_url))?'TRUE':'false';		
+		$url_matching = ($result['company_url'] == get_domain_from_url($url))?'TRUE':'false';		
 		$result['url_matching']= $url_matching;
 		return $result;
 	};
-
 
 	function verify_chain($array){
 		$array=array_unique($array);
@@ -43,6 +35,7 @@
 	};
 
 	function get_company_data(){
+		chdir(dirname(__FILE__));
 		$subject=exec('./get_company_data.sh');
 		preg_match("/O=(.+)\//U",$subject,$matches);
 		$company_name=$matches[1];
@@ -54,6 +47,7 @@
 	};
 
 	function load_certificate_chain($url){
+		chdir(dirname(__FILE__));
 		return exec('./ocsp_load.sh '.$url);
 	};
 
