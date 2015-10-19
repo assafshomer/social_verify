@@ -1,15 +1,12 @@
 #!/bin/bash
-
-# get url from cmd arg
-URL=$1;
+# http://backreference.org/2010/05/09/ocsp-verification-with-openssl/
 
 # extract domain from url
+URL='https://bankofamerica.com';
 if [[ $URL =~ https://(.+)$ ]]; then
  DOMAIN=${BASH_REMATCH[1]};
 fi;
-
-# change to current dir
-cd ${0%/*};
+printf "Processing domain ["$DOMAIN"]\n*******************************************\n";
 
 # remove auxiliary files
 rm -f tmp/*.*;
@@ -17,13 +14,13 @@ rm -f tmp/*.*;
 # define the name of the certificates file
 CAF='CAbundle.crt';
 
-# define path to mozilla.org ca bundle
+# define the url for getting the mozilla.org certificates
 MB='https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt';
 
 # copy the system CA certificates file for local use
 cat /etc/ssl/certs/ca-certificates.crt > $CAF;
 
-# add auto converted CA Certs from mozilla.org
+# add Automatically converted CA Certs from mozilla.org from  https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt
 wget -q -O mozbunle.crt $MB;
 cat mozbunle.crt >> $CAF;
 
@@ -34,13 +31,26 @@ awk -v c=-1 '/-----BEGIN CERTIFICATE-----/{inc=1;c++}
              inc {print > ("tmp/level" c ".crt")}
              /---END CERTIFICATE-----/{inc=0}'
 
+# print data about each certificate
+for i in tmp/level?.crt; do
+	printf "**************************\nInspecting "$i" cert \n-------------------------\n"
+	I=$(echo "$i" | sed -e s/[^0-9]//g); 
+	openssl x509 -noout -serial -subject -issuer -dates -in "$i" > tmp/details$I.txt; 
+	echo; 
+done
+
 # grab Authority information access url from certificates and save to aia#.txt
+printf "Authority Information Access urls\n****************************************\n"
 for i in tmp/level?.crt; do
 	I=$(echo "$i" | sed -e s/[^0-9]//g); 
+	# echo "processing [$i]:"; 
 	output=$(openssl x509 -noout -text -in "$i" | grep OCSP);
 	if [[ $output =~ URI:(.+)$ ]]; then
 			aia=${BASH_REMATCH[1]};
+	    echo $i" : ["$aia"]";
 	    echo $aia > "tmp/aia"$I".txt";
+	else
+	    echo "Authority Information Access url: []"
 	fi
 done
 
@@ -60,15 +70,12 @@ for i in tmp/level?.crt; do
 	for j in tmp/level?.crt; do
 		J=$(echo "$j" | sed -e s/[^0-9]//g)
   	if [ "$J" -eq $(($I+1)) ]; then
+			printf "**********************\nVerifying Level ["$I"]\n----------------------\n"
 			aiaurl=$(cat tmp/aia$I.txt)
+			echo "OCSP URL ["$aiaurl"]";
 			serial=$(openssl x509 -serial -noout -in $i); 
 			serial=${serial#*=};
-			openssl ocsp -issuer $j -CAfile $CAF -VAfile $CAF -url $aiaurl -serial "0x${serial}" -out "tmp/result"$I".txt"
+			openssl ocsp -issuer $j -CAfile $CAF -VAfile $CAF -url $aiaurl -serial "0x${serial}"
 		fi		
 	done
-done
-
-# echo file indexes so that the max is the number returned to php
-for i in tmp/level?.crt; do
-	echo $(echo "$i" | sed -e s/[^0-9]//g)	
 done
