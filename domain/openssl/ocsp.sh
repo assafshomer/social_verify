@@ -9,17 +9,19 @@ fi;
 printf "Processing domain ["$DOMAIN"]\n*******************************************\n";
 
 # remove auxiliary files
-rm -f tmp/aia*.txt;
-rm -f tmp/level*.crt;
+rm -f tmp/*.*;
 
 # define the name of the certificates file
 CAF='CAbundle.crt';
+
+# define the url for getting the mozilla.org certificates
+MB='https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt';
 
 # copy the system CA certificates file for local use
 cat /etc/ssl/certs/ca-certificates.crt > $CAF;
 
 # add Automatically converted CA Certs from mozilla.org from  https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt
-wget -O mozbunle.crt https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt
+wget -q -O mozbunle.crt $MB;
 cat mozbunle.crt >> $CAF;
 
 # import the certificate chain to files level0.crt, level1.crt etc
@@ -57,7 +59,7 @@ for i in tmp/level?.crt; do
 	I=$(echo "$i" | sed -e s/[^0-9]//g);
 	q=$q$(($I+1))','
 done
-q='level'${q::-3}'}.crt'
+q='tmp/level'${q::-3}'}.crt'
 cmd='cat /etc/ssl/certs/ca-certificates.crt '$q' > '$CAF
 eval $cmd
 
