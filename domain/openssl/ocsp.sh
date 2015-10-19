@@ -9,8 +9,8 @@ fi;
 printf "Processing domain ["$DOMAIN"]\n*******************************************\n";
 
 # remove auxiliary files
-rm -f aia*.txt;
-rm -f level*.crt;
+rm -f tmp/aia*.txt;
+rm -f tmp/level*.crt;
 
 # define the name of the certificates file
 CAF='CAbundle.crt';
@@ -26,11 +26,11 @@ cat mozbunle.crt >> $CAF;
 openssl s_client -showcerts -connect \
 $DOMAIN:443 -CAfile $CAF < /dev/null | \
 awk -v c=-1 '/-----BEGIN CERTIFICATE-----/{inc=1;c++} 
-             inc {print > ("level" c ".crt")}
+             inc {print > ("tmp/level" c ".crt")}
              /---END CERTIFICATE-----/{inc=0}'
 
 # print data about each certificate
-for i in level?.crt; do
+for i in tmp/level?.crt; do
 	printf "**************************\nInspecting "$i" cert \n-------------------------\n"
 	openssl x509 -noout -serial -subject -issuer -dates -in "$i"; 
 	echo; 
@@ -38,14 +38,14 @@ done
 
 # grab Authority information access url from certificates and save to aia#.txt
 printf "Authority Information Access urls\n****************************************\n"
-for i in level?.crt; do
+for i in tmp/level?.crt; do
 	I=$(echo "$i" | sed -e s/[^0-9]//g); 
 	# echo "processing [$i]:"; 
 	output=$(openssl x509 -noout -text -in "$i" | grep OCSP);
 	if [[ $output =~ URI:(.+)$ ]]; then
 			aia=${BASH_REMATCH[1]};
 	    echo $i" : ["$aia"]";
-	    echo $aia > "aia"$I".txt";
+	    echo $aia > "tmp/aia"$I".txt";
 	else
 	    echo "Authority Information Access url: []"
 	fi
@@ -53,7 +53,7 @@ done
 
 # add certificate chain to the CAbundle
 q='{0,';
-for i in level?.crt; do
+for i in tmp/level?.crt; do
 	I=$(echo "$i" | sed -e s/[^0-9]//g);
 	q=$q$(($I+1))','
 done
@@ -62,13 +62,13 @@ cmd='cat /etc/ssl/certs/ca-certificates.crt '$q' > '$CAF
 eval $cmd
 
 # verifying the chain 
-for i in level?.crt; do
+for i in tmp/level?.crt; do
 	I=$(echo "$i" | sed -e s/[^0-9]//g)	
-	for j in level?.crt; do
+	for j in tmp/level?.crt; do
 		J=$(echo "$j" | sed -e s/[^0-9]//g)
   	if [ "$J" -eq $(($I+1)) ]; then
 			printf "**********************\nVerifying Level ["$I"]\n----------------------\n"
-			aiaurl=$(cat aia$I.txt)
+			aiaurl=$(cat tmp/aia$I.txt)
 			echo "OCSP URL ["$aiaurl"]";
 			serial=$(openssl x509 -serial -noout -in $i); 
 			serial=${serial#*=};
