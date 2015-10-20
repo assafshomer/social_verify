@@ -29,6 +29,7 @@ $match_domains_test=(match_urls('www.foo.bar','xxx.foo.bar')
 	&&  match_urls('www.foo.bar','*.foo.bar')
 	&&  match_urls('foo.bar','*.foo.bar')
 	&&  match_urls('foo.bar','www.foo.bar')
+	&&  match_urls('cert-002.blockchain.info','www.blockchain.info')
 )?PASS:FAIL;
 echo "<br/>match_domains_test: [".$match_domains_test."]";
 
@@ -39,9 +40,9 @@ if (SLOW=='TRUE') {
 	// BANK OF AMERICA
 	$bofa = verify_domain_json($bofa_json);
 	$bofa_test = ($bofa["company_name"]== "Bank of America Corporation" 
-		&&	$bofa["company_url"]=='www.bankofamerica.com'
+		// &&	$bofa["company_url"]=='www.bankofamerica.com'
 		&&	$bofa["verification_result"]=='PASS'
-		// &&	$bofa["url_matching"]=='TRUE'
+		&&	$bofa["url_matching"]=='TRUE'
 	)?PASS:FAIL;
 	echo "<br/>bofa_test: [".$bofa_test."]";
 	if ($bofa_test==FAIL) {var_dump($bofa);}
@@ -49,9 +50,9 @@ if (SLOW=='TRUE') {
 	// WELLS FARGO
 	$wf=verify_domain_json($wf_json);
 	$wf_test = ($wf["company_name"]== "Wells Fargo and Company" 
-		&&	$wf["company_url"]=='www.wellsfargo.com'
+		// &&	$wf["company_url"]=='www.wellsfargo.com'
 		&&	$wf["verification_result"]=='PASS'
-		// &&	$bofa["url_matching"]=='TRUE'
+		&&	$wf["url_matching"]=='TRUE'
 	)?PASS:FAIL;
 	echo "<br/>wf_test: [".$wf_test."]";
 	if ($wf_test==FAIL) {var_dump($wf);}
@@ -59,9 +60,9 @@ if (SLOW=='TRUE') {
 	// GITHUB
 	$github=verify_domain_json($github_json);
 	$github_test = ($github["company_name"]== "GitHub, Inc." 
-		&&	$github["company_url"]=='github.com'
+		// &&	$github["company_url"]=='github.com'
 		&&	$github["verification_result"]=='PASS'
-		// &&	$bofa["url_matching"]=='TRUE'
+		&&	$github["url_matching"]=='TRUE'
 	)?PASS:FAIL;
 	echo "<br/>github_test: [".$github_test."]";
 	if ($github_test==FAIL) {var_dump($github);}
@@ -69,9 +70,9 @@ if (SLOW=='TRUE') {
 	// COINBASE
 	$coinbase=verify_domain_json($coinbase_json);
 	$coinbase_test = ($coinbase["company_name"]== "Coinbase, Inc." 
-		&&	$coinbase["company_url"]=='www.coinbase.com'
+		// &&	$coinbase["company_url"]=='www.coinbase.com'
 		&&	$coinbase["verification_result"]=='PASS'
-		// &&	$bofa["url_matching"]=='TRUE'
+		&&	$coinbase["url_matching"]=='TRUE'
 	)?PASS:FAIL;
 	echo "<br/>coinbase_test: [".$coinbase_test."]";
 	if ($coinbase_test==FAIL) {var_dump($coinbase);}
@@ -79,9 +80,9 @@ if (SLOW=='TRUE') {
 	// COLU
 	$colu=verify_domain_json($colu_json);
 	$colu_test = ($colu["company_name"]== "" 
-		&&	$colu["company_url"]=='colu.co'
+		// &&	$colu["company_url"]=='colu.co'
 		&&	$colu["verification_result"]=='PASS'
-		// &&	$bofa["url_matching"]=='TRUE'
+		&&	$colu["url_matching"]=='TRUE'
 	)?PASS:FAIL;
 	echo "<br/>colu_test: [".$colu_test."]";
 	if ($colu_test==FAIL) {var_dump($colu);}
@@ -89,18 +90,13 @@ if (SLOW=='TRUE') {
 	// BLOCKCHAIN.INFO
 	$bcinfo=verify_domain_json($bcinfo_json);
 	$bcinfo_test = ($bcinfo["company_name"]== "Blockchain Luxembourg S.A.R.L" 
-		&&	$bcinfo["company_url"]=='www.blockchain.info'
 		&&	$bcinfo["verification_result"]=='PASS'
-		// &&	$bofa["url_matching"]=='TRUE'
+		&&	$bcinfo["url_matching"]=='TRUE'
 	)?PASS:FAIL;
 	echo "<br/>bcinfo_test: [".$bcinfo_test."]";
 	if ($bcinfo_test==FAIL) {var_dump($bcinfo);}
 
-
-
-
 };
-
 
 echo "<hr/>";
 // echo "<br/>output: [".$github."]";
