@@ -286,3 +286,42 @@ Note that the `aid` (short for AssetID) is not included in the metadata because 
 
 ### Test
 Open `test/networks/github_test.php` in your browser.
+
+# Domain verification
+
+## Setup
+make sure to give 777 permissions on a local dir like so
+```Batchfile
+	sudo chmod -R 777 verify/domain/openssl/tmp/
+```
+
+## Usage
+
+If you feed a json of the format
+```JSON
+{
+	"social":{
+	},
+	"domain":{
+		"url":"https://www.wellsfargo.com",
+		"path":"assets.txt"
+	}
+}
+```
+to the function `verify_domain_json($json)` sitting in `domain/openssl/verify_ssl.php` then we
+* Fetch the certificate from the url
+* Fetch the full certificate chain up to a CA
+* Verify all certificates in the chain
+* Check that the url in the sight certificate matches with the url mentioned in the certificate
+* returns an assoicative array with the following keys:
+```
+{ 
+ "company_name" => "Bank of America Corporation",
+ "company_url" => "www.bankofamerica.com",
+ "verification_result" => "PASS|FAIL", 
+ "url_matching" => "TRUE|false" 
+}
+```
+
+### Test
+Open `test/domain/domain_test.php` in your browser.

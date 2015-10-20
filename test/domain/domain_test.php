@@ -101,7 +101,7 @@ if (SLOW=='TRUE') {
 echo "<hr/>";
 // echo "<br/>output: [".$github."]";
 // var_dump(get_chain_verification_results(1,$github_url));
-// echo "<br/>bofa: [".verify_domain($bofa_json)."]";
+// echo "<br/>bofa: [".var_dump(verify_domain_json($bofa_json))."]";
 
 // AUX OUTPUTS
 // echo "<br/>gist: [".$gist."]";
