@@ -31,14 +31,14 @@ for ($x = 0; $x <= 2; $x++) {
 // $file = fopen($path, "w+") or die("Unable to open file ".$path);
 // fwrite($file, $txt);
 // fclose($file);
-$string='*.cert-002.blockchain.info';
-$tmp=explode('.',$string);
-array_shift($tmp);
-var_dump($tmp);
-echo implode(".", $tmp);
+// $string='*.cert-002.blockchain.info';
+// $tmp=explode('.',$string);
+// array_shift($tmp);
+// var_dump($tmp);
+// echo implode(".", $tmp);
 // echo preg_replace("/^(www\.|\*.)/", '', $string);
-
-
+$homepage = file_get_contents('https://www.colu.co/assets.txt');
+echo "result:[".$homepage."]\n";
 
 
 

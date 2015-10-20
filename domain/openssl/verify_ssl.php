@@ -82,9 +82,31 @@
 		};
 	};
 
+	function get_file_path($json){
+		$tmp = json_decode($json,TRUE);
+		$error_message = $tmp['errors'][0]['message'];
+		if (strlen($error_message)>0) {
+			return $error_message;
+		} else {
+			return $tmp['domain']['path'];
+		};
+	};
+
+	function get_asset_id($json){
+		$tmp = json_decode($json,TRUE);
+		$error_message = $tmp['errors'][0]['message'];
+		if (strlen($error_message)>0) {
+			return $error_message;
+		} else {
+			return $tmp['domain']['aid'];
+		};
+	};
+
 	function get_domain_from_url($url){
 		preg_match("/https:\/\/(.+)/", $url,$matches);
 		return $matches[1];
-	}
+	};
+
+
 	
 ?>

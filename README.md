@@ -312,7 +312,7 @@ to the function `verify_domain_json($json)` sitting in `domain/openssl/verify_ss
 * Fetch the certificate from the url
 * Fetch the full certificate chain up to a CA
 * Verify all certificates in the chain
-* Check that the url in the sight certificate matches with the url mentioned in the certificate
+* Check that the url in the site certificate matches with the url mentioned in the certificate
 * returns an assoicative array with the following keys:
 ```
 { 
