@@ -4,7 +4,12 @@
 	// $result = verify_domain($embedded_url);
 	// var_dump($result);
 
-	function verify_domain($url){
+	function verify_domain_json($json){
+		$url = get_url($json);
+		return verify_domain_by_url($url);
+	}
+
+	function verify_domain_by_url($url){
 		$certificate_chain_length = load_certificate_chain($url);
 		$result_array = get_chain_verification_results($certificate_chain_length,$url);
 		$verification_result = verify_chain($result_array)?"PASS":"FAIL";
