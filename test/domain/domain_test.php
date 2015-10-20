@@ -7,7 +7,6 @@ include SSL_ROOT.'verify_ssl.php';
 $verified_json = load_json('verified');
 $unverified_json = load_json('unverified');
 $fake_networks_json = load_json('fake_networks');
-$bofa_url = 'https://www.bankofamerica.com';
 
 // VARS
 $good_array=array('good','good','good');
@@ -15,6 +14,7 @@ $bad_array=array('good','good','bad');
 // $chain_length = load_certificate_chain($bofa_url);
 
 // BANK OF AMERICA
+$bofa_url = 'https://www.bankofamerica.com';
 $bofa=verify_domain($bofa_url);
 
 // WELLS FARGO
@@ -24,6 +24,14 @@ $wf=verify_domain($wf_url);
 // GITHUB
 $github_url = 'https://github.com';
 $github=verify_domain($github_url);
+
+// COINBASE
+$coinbase_url = 'https://www.coinbase.com';
+$coinbase=verify_domain($coinbase_url);
+
+// COLU
+$colu_url = 'https://www.colu.co';
+$colu=verify_domain($colu_url);
 
 // TESTS
 // $var_test = ()? PASS:FAIL;
@@ -51,7 +59,20 @@ $github_test = ($github["company_name"]== "GitHub, Inc."
 	// &&	$bofa["url_matching"]=='TRUE'
 )?PASS:FAIL;
 
-// OUTPUT
+
+$coinbase_test = ($coinbase["company_name"]== "Coinbase, Inc." 
+	&&	$coinbase["company_url"]=='www.coinbase.com'
+	&&	$coinbase["verification_result"]=='PASS'
+	// &&	$bofa["url_matching"]=='TRUE'
+)?PASS:var_dump($coinbase);
+
+$colu_test = ($colu["company_name"]== "" 
+	&&	$colu["company_url"]=='*.colu.co'
+	&&	$colu["verification_result"]=='PASS'
+	// &&	$bofa["url_matching"]=='TRUE'
+)?PASS:var_dump($colu);
+
+// OUTPUTS
 
 echo "<br/>array_test: [".$array_test."]";
 // echo "<br/>load_cert_test: [".$load_cert_test."]";
@@ -60,6 +81,8 @@ echo "<br/>get_domain_from_url_test: [".$get_domain_from_url_test."]";
 echo "<br/>bofa_test: [".$bofa_test."]";
 echo "<br/>wf_test: [".$wf_test."]";
 echo "<br/>github_test: [".$github_test."]";
+echo "<br/>coinbase_test: [".$coinbase_test."]";
+echo "<br/>colu_test: [".$colu_test."]";
 echo "<hr/>";
 // echo "<br/>output: [".$github."]";
 // var_dump(get_chain_verification_results(1,$github_url));
