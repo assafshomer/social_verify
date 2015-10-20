@@ -2,7 +2,7 @@
 
 include '../test_helper.php';
 include SSL_ROOT.'verify_ssl.php';
-define('SLOW', true);
+define('SLOW', false);
 // mimicking json from eyal
 $bofa_json = load_json('verified');
 $wf_json = load_json('wf');
@@ -99,6 +99,9 @@ if (SLOW=='TRUE') {
 };
 
 echo "<hr/>";
+$colu_asset_test = (verify_asset_json($colu_json)=='TRUE')?PASS:FAIL;
+echo "<br/>colu_asset_test: [".$colu_asset_test."]";
+
 // echo "<br/>output: [".$github."]";
 // var_dump(get_chain_verification_results(1,$github_url));
 // echo "<br/>bofa: [".var_dump(verify_domain_json($bofa_json))."]";

@@ -37,9 +37,14 @@ for ($x = 0; $x <= 2; $x++) {
 // var_dump($tmp);
 // echo implode(".", $tmp);
 // echo preg_replace("/^(www\.|\*.)/", '', $string);
-$homepage = file_get_contents('https://www.colu.co/assets.txt');
-echo "result:[".$homepage."]\n";
-
+// $homepage = file_get_contents('https://www.colu.co/assets.txt');
+$path = dirname(__FILE__).'/test/fixtures/fake_assets.txt';
+$homepage = file_get_contents($path);
+echo $homepage."\n";
+$foo='buzz';
+$regex="/^$foo\n|\n$foo\n|\n$foo$/";
+preg_match($regex, $homepage,$matches);
+echo "match: [".$matches[0]."]\n";
 
 
 ?>

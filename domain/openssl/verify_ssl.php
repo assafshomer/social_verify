@@ -107,6 +107,14 @@
 		return $matches[1];
 	};
 
-
+	function verify_asset_json($json){
+		$path = get_file_path($json);
+		$url = get_url($json);
+		$aid = get_asset_id($json);
+		$file = file_get_contents($url.'/'.$path);
+		$regex="/^$aid\n|\n$aid\n|\n$aid$/";
+		preg_match($regex,$file,$matches);
+		return (trim($matches[0]) == $aid)?TRUE:var_dump($matches);		
+	};
 	
 ?>
