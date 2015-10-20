@@ -15,10 +15,22 @@
 		$verification_result = verify_chain($result_array)?"PASS":"FAIL";
 		$result = get_company_data($url);
 		$result['verification_result']=$verification_result;
-		$url_matching = ($result['company_url'] == get_domain_from_url($url))?'TRUE':'false';		
+		$url_matching = match_urls(get_domain_from_url($url),$result['company_url']);		
 		$result['url_matching']= $url_matching;
 		return $result;
 	};
+
+	function match_urls($url1,$url2){
+		$s1=truncate_first($url1);
+		$s2=truncate_first($url2);
+		return ($s1==$s2)?TRUE:false;
+	};
+
+	function truncate_first($url){
+		$tmp=explode('.',$url);
+		array_shift($tmp);
+		return implode(".", $tmp);
+	}
 
 	function verify_chain($array){
 		$array=array_unique($array);
