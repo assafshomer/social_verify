@@ -2,7 +2,7 @@
 
 include '../test_helper.php';
 include SSL_ROOT.'verify_ssl.php';
-define('SLOW', false);
+define('SLOW', true);
 // mimicking json from eyal
 $bofa_json = load_json('verified');
 $wf_json = load_json('wf');
@@ -27,7 +27,8 @@ echo "<br/>get_url_test: [".$get_url_test."]";
 
 $match_domains_test=(match_urls('www.foo.bar','xxx.foo.bar')
 	&&  match_urls('www.foo.bar','*.foo.bar')
-	// &&  match_urls('foo.bar','*.foo.bar')	
+	&&  match_urls('foo.bar','*.foo.bar')
+	&&  match_urls('foo.bar','www.foo.bar')
 )?PASS:FAIL;
 echo "<br/>match_domains_test: [".$match_domains_test."]";
 

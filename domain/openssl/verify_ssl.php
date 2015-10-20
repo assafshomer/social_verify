@@ -23,7 +23,7 @@
 	function match_urls($url1,$url2){
 		$s1=truncate_first($url1);
 		$s2=truncate_first($url2);
-		return ($s1==$s2)?TRUE:false;
+		return ($s1==$s2 || $s2==$url1)?TRUE:false;
 	};
 
 	function truncate_first($url){
