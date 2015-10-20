@@ -48,13 +48,19 @@
 
 # printf "foo\nbar"
 
-echo "$@"
-echo "$1"
-cd ${0%/*}
-echo level?.crt
+# echo "$@"
+# echo "$1"
+# cd ${0%/*}
+# echo level?.crt
 
 # for i in level?.crt; do
 # 	printf "**************************\nInspecting "$i" cert \n-------------------------\n"
 # 	openssl x509 -noout -serial -subject -issuer -dates -in "$i"; 
 # 	echo; 
 # done
+
+string='www.bankofamerica.com';
+echo $string|awk '{gsub("\\.", "_")}1';
+foo="$(echo $string|awk '{gsub("\\.", "_")}1';)"
+echo "foo=["${foo}"]";
+echo $string;
