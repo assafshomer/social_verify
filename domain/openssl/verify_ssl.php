@@ -114,7 +114,8 @@
 		$file = file_get_contents($url.'/'.$path);
 		$regex="/^$aid\n|\n$aid\n|\n$aid$/";
 		preg_match($regex,$file,$matches);
-		return (trim($matches[0]) == $aid)?TRUE:var_dump($matches);		
+		// return (trim($matches[0]) == $aid)?TRUE:var_dump($matches);	#for debu	
+		return (trim($matches[0]) == $aid)?TRUE:false;	
 	};
 	
 ?>

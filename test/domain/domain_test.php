@@ -10,6 +10,8 @@ $github_json = load_json('github');
 $coinbase_json = load_json('coinbase');
 $colu_json = load_json('colu');
 $bcinfo_json = load_json('blockchaininfo');
+$colu_2nd_asset_json = load_json('colu_2nd_asset');
+$colu_fake_asset_json = load_json('colu_fake_asset');
 
 // VARS
 $good_array=array('good','good','good');
@@ -99,9 +101,12 @@ if (SLOW=='TRUE') {
 };
 
 echo "<hr/>";
-$colu_asset_test = (verify_asset_json($colu_json)=='TRUE')?PASS:FAIL;
-echo "<br/>colu_asset_test: [".$colu_asset_test."]";
-
+$colu_first_asset_test = (verify_asset_json($colu_json)=='TRUE')?PASS:FAIL;
+echo "<br/>colu_first_asset_test: [".$colu_first_asset_test."]";
+$colu_2nd_asset_test = (verify_asset_json($colu_2nd_asset_json)=='TRUE')?PASS:FAIL;
+echo "<br/>colu_2nd_asset_test: [".$colu_2nd_asset_test."]";
+$colu_fake_asset_test = (verify_asset_json($colu_fake_asset_json)!='TRUE')?PASS:FAIL;
+echo "<br/>colu_fake_asset_test: [".$colu_fake_asset_test."]";
 // echo "<br/>output: [".$github."]";
 // var_dump(get_chain_verification_results(1,$github_url));
 // echo "<br/>bofa: [".var_dump(verify_domain_json($bofa_json))."]";
