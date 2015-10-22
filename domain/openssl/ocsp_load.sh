@@ -14,8 +14,9 @@ TAG="$(echo $DOMAIN|awk '{gsub("\\.", "_")}1';)"
 # change to current dir
 cd ${0%/*};
 
-# define the name of the certificates file
-CAF='CAbundle.crt';
+# define the name of certificate files
+CAF='tmp/CAbundle.crt';
+MAF='tmp/mozbunle.crt';
 
 # define path to mozilla.org ca bundle
 MB='https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt';
@@ -24,8 +25,8 @@ MB='https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt';
 cat /etc/ssl/certs/ca-certificates.crt > $CAF;
 
 # add auto converted CA Certs from mozilla.org
-wget -q -O mozbunle.crt $MB;
-cat mozbunle.crt >> $CAF;
+wget -q -O $MAF $MB;
+cat $MAF >> $CAF;
 
 # import the certificate chain to files level0.crt, level1.crt etc
 openssl s_client -showcerts -connect \

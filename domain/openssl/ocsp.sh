@@ -1,5 +1,6 @@
 #!/bin/bash
 # http://backreference.org/2010/05/09/ocsp-verification-with-openssl/
+# THIS FILE IS FOR RUNNING ONE CERTIFICATE QUERY MANUALLY, NOT NEEDED FOR PROD
 
 # extract domain from url
 URL='https://bankofamerica.com';
@@ -9,20 +10,21 @@ fi;
 printf "Processing domain ["$DOMAIN"]\n*******************************************\n";
 
 # remove auxiliary files
-rm -f tmp/*.*;
+# rm -f tmp/*.*;
 
-# define the name of the certificates file
-CAF='CAbundle.crt';
+# define the name of certificate files
+CAF='tmp/CAbundle.crt';
+MAF='tmp/mozbunle.crt';
 
-# define the url for getting the mozilla.org certificates
+# define path to mozilla.org ca bundle
 MB='https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt';
 
 # copy the system CA certificates file for local use
 cat /etc/ssl/certs/ca-certificates.crt > $CAF;
 
-# add Automatically converted CA Certs from mozilla.org from  https://raw.githubusercontent.com/bagder/ca-bundle/master/ca-bundle.crt
-wget -q -O mozbunle.crt $MB;
-cat mozbunle.crt >> $CAF;
+# add auto converted CA Certs from mozilla.org
+wget -q -O $MAF $MB;
+cat $MAF >> $CAF;
 
 # import the certificate chain to files level0.crt, level1.crt etc
 openssl s_client -showcerts -connect \
