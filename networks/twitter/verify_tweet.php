@@ -65,7 +65,7 @@ function get_expected_text($json){
 	};
 };
 
-function twitter_verify_asset($verifications_json){
+function twitter_verify_asset($verifications_json){	
 	$tweet_content = get_tweet(get_tweet_id($verifications_json));
 	$expected_content = get_expected_text($verifications_json);
 	$check = ($tweet_content==$expected_content)?TRUE:FALSE;

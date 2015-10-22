@@ -10,7 +10,7 @@ echo "<br/> Extended Access Token [".extend_access_token($shortTermAccessToken).
 
 
 function fetch_access_token($path){
-	$access_token_file = fopen($path, "a+") or die("Unable to open file!");
+	$access_token_file = fopen($path, "a+") or die("Unable to open file! [".$path."]");
 	$size = filesize($path);
 	if ($size > 0) {
 		$access_token = fread($access_token_file,$size);

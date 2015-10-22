@@ -3,6 +3,7 @@ twitter_bearer_token*
 scratch*
 *secret*.*
 *.old
+shared/debug
 vendor/
 domain/openssl/tmp/
 *.crt
