@@ -1,6 +1,6 @@
 <?php
 
-include 'vars.php';
+// include 'vars.php';
 include SECRET_FILE;
 
 function get_bearer_token(){
@@ -21,18 +21,19 @@ function get_bearer_token(){
 		"Authorization: Basic ".$base64_encoded_bearer_token,
 		"Content-Type: application/x-www-form-urlencoded;charset=UTF-8"
 	); 
-	$ch = curl_init();  // setup a curl
-	curl_setopt($ch, CURLOPT_URL,$url);  // set url to send to
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); // set custom headers
-	curl_setopt($ch, CURLOPT_POST, 1); // send as post
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return output
+	$ch = curl_init();  
+	curl_setopt($ch, CURLOPT_URL,$url);  
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+	curl_setopt($ch, CURLOPT_POST, 1); 
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials"); // post body/fields to be sent
-	$header = curl_setopt($ch, CURLOPT_HEADER, 1); // send custom headers
+	$header = curl_setopt($ch, CURLOPT_HEADER, 1); 
 	$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	$retrievedhtml = curl_exec ($ch); // execute the curl
-	curl_close($ch); // close the curl
-	// echo $retrievedhtml;
+	$retrievedhtml = curl_exec ($ch); 
+	curl_close($ch); 
+	// echo "retrievedhtml: [".$retrievedhtml."]<br/>"; 
 	$output = explode("\n", $retrievedhtml);
+	// var_dump($output);
 	$bearer_token = '';
 	foreach($output as $line)
 	{
@@ -40,40 +41,13 @@ function get_bearer_token(){
 		{
 			// there was no bearer token
 		}else{
-			$bearer_token = $line;
+			$a = json_decode($line,TRUE);
+			if (is_array($a) && array_key_exists('access_token', $a)) {
+				$bearer_token = json_decode($line,TRUE)['access_token'];	
+			 }			
 		}
-	}
-	$bearer_token = json_decode($bearer_token);
-	return $bearer_token->{'access_token'};
-};
-
-function invalidate_bearer_token($bearer_token){
-	$encoded_consumer_key = urlencode(CONSUMER_KEY);
-	$encoded_consumer_secret = urlencode(CONSUMER_SECRET);
-	$consumer_token = $encoded_consumer_key.':'.$encoded_consumer_secret;
-	$base64_encoded_consumer_token = base64_encode($consumer_token);
-	// step 2
-	$url = "https://api.twitter.com/oauth2/invalidate_token"; // url to send data to for authentication
-	$headers = array( 
-		"POST /oauth2/invalidate_token HTTP/1.1", 
-		"Host: api.twitter.com", 
-		"User-Agent: jonhurlock Twitter Application-only OAuth App v.1",
-		"Authorization: Basic ".$base64_encoded_consumer_token,
-		"Accept: */*", 
-		"Content-Type: application/x-www-form-urlencoded"
-	); 
-    
-	$ch = curl_init();  // setup a curl
-	curl_setopt($ch, CURLOPT_URL,$url);  // set url to send to
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); // set custom headers
-	curl_setopt($ch, CURLOPT_POST, 1); // send as post
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return output
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=".$bearer_token.""); // post body/fields to be sent
-	$header = curl_setopt($ch, CURLOPT_HEADER, 1); // send custom headers
-	$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	$retrievedhtml = curl_exec ($ch); // execute the curl
-	curl_close($ch); // close the curl
-	return $retrievedhtml;
+	};
+	return $bearer_token;
 };
 
 // get it from file, or from twitter api if file is empty
@@ -82,7 +56,7 @@ function fetch_bearer_token($path){
 	$size = filesize($path);
 	if ($size > 0) {
 		$bearer_token = fread($bearer_token_file,$size);
-	} else {
+	} else {		
 		$bearer_token = get_bearer_token();
 		fwrite($bearer_token_file,$bearer_token); 
 	};

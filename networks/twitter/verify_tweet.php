@@ -4,6 +4,8 @@ include 'vars.php';
 include ROOT.'shared/global.php';
 include 'twitter_get_tokens.php';
 
+fetch_bearer_token(TOKEN_FILE);
+
 function get_raw_tweet_by_id($bearer_token, $tweet_id){
 	$endpoint = '/1.1/statuses/show.json';
 	$url = HOST.$endpoint;
@@ -15,12 +17,12 @@ function get_raw_tweet_by_id($bearer_token, $tweet_id){
 		"Authorization: Bearer ".$bearer_token
 	);
 	$formed_url = $url.$params;
-	$ch = curl_init();  // setup a curl
-	curl_setopt($ch, CURLOPT_URL,$formed_url);  // set url to send to
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); // set custom headers
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return output
-	$retrievedhtml = curl_exec ($ch); // execute the curl
-	curl_close($ch); // close the curl
+	$ch = curl_init();  
+	curl_setopt($ch, CURLOPT_URL,$formed_url);  
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+	$retrievedhtml = curl_exec ($ch); 
+	curl_close($ch); 
 	return $retrievedhtml;		
 };
 
