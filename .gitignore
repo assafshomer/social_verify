@@ -4,7 +4,6 @@ scratch*
 *secret*.*
 *.old
 shared/debug
-vendor/
-domain/openssl/tmp/
 *.crt
-domain/openssl/aia*.txt
+domain/openssl/tmp/*.txt
+domain/openssl/tmp/*.crt
