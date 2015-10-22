@@ -2,7 +2,7 @@
 
 include '../test_helper.php';
 include SSL_ROOT.'verify_ssl.php';
-define('SLOW', TRUE);
+define('SLOW', false);
 // mimicking json from eyal
 $bofa_json = load_json('verified');
 $wf_json = load_json('wf');
@@ -38,16 +38,17 @@ echo "<br/>match_domains_test: [".$match_domains_test."]";
 $get_domain_from_url_test = (get_domain_from_url($bofa_url) == 'www.bankofamerica.com' )?PASS:FAIL;
 echo "<br/>get_domain_from_url_test: [".$get_domain_from_url_test."]";
 
+// BANK OF AMERICA
+$bofa = verify_domain_json($bofa_json);
+$bofa_ssl_test = ($bofa["company_name"]== "Bank of America Corporation" 
+	// &&	$bofa["company_url"]=='www.bankofamerica.com'
+	&&	$bofa["verification_result"]=='PASS'
+	&&	$bofa["url_matching"]=='TRUE'
+)?PASS:FAIL;
+echo "<br/>bofa_ssl_test: [".$bofa_ssl_test."]";
+if ($bofa_ssl_test==FAIL) {var_dump($bofa);}
+
 if (SLOW=='TRUE') {
-	// BANK OF AMERICA
-	$bofa = verify_domain_json($bofa_json);
-	$bofa_ssl_test = ($bofa["company_name"]== "Bank of America Corporation" 
-		// &&	$bofa["company_url"]=='www.bankofamerica.com'
-		&&	$bofa["verification_result"]=='PASS'
-		&&	$bofa["url_matching"]=='TRUE'
-	)?PASS:FAIL;
-	echo "<br/>bofa_ssl_test: [".$bofa_ssl_test."]";
-	if ($bofa_ssl_test==FAIL) {var_dump($bofa);}
 
 	// WELLS FARGO
 	$wf=verify_domain_json($wf_json);
