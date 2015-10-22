@@ -318,12 +318,12 @@ The json format both functions are expecting is:
 }
 ```
 
-### `verify_domain_json($json)` will
-* Fetch the certificate from the url
-* Fetch the full certificate chain up to a CA
-* Verify all certificates in the chain
-* Check that the url in the site certificate matches with the url mentioned in the certificate
-* returns an assoicative array with the following keys:
+### `verify_domain_json($json)`
+* Fetches the SSL certificate from the url
+* Fetches the full certificate chain up to a CA
+* Verifies all certificates in the chain
+* Checks that the url matches with the one mentioned in the certificate
+* Returns an assoicative array with the following keys:
 ```
 { 
  "company_name" => "Bank of America Corporation",
@@ -333,8 +333,8 @@ The json format both functions are expecting is:
 }
 ```
 
-### `verify_asset_json($json)` will
-* Returns `TRUE` or `false` according to whether the asset id `aid` appears in the file sitting behind SSL at `url`/`path`. For example, in this case we will be looking for a line containing `U9a36XP1UwL5pxaYYiZYJ86sUqWAJ2dGbLaer` in a file located at `https://www.bankofamerica.com/asset.txt`
+### `verify_asset_json($json)`
+* Returns `TRUE` or `false` according to whether the asset id `aid` appears in the file sitting behind SSL at `url`/`path`. For example, in this case we will be looking for a line containing `U9a36XP1UwL5pxaYYiZYJ86sUqWAJ2dGbLaer` in a file located at `https://www.bankofamerica.com/assets.txt`
 
 ### Test
 Open `test/domain/domain_test.php` in your browser.
