@@ -2,7 +2,7 @@
 
 include '../test_helper.php';
 include SSL_ROOT.'verify_ssl.php';
-define('SLOW', false);
+define('SLOW', true);
 // mimicking json from eyal
 $bofa_json = load_json('verified');
 $wf_json = load_json('wf');

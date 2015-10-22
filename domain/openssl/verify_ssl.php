@@ -17,6 +17,7 @@
 		$result['verification_result']=$verification_result;
 		$url_matching = match_urls(get_domain_from_url($url),$result['company_url']);		
 		$result['url_matching']= $url_matching;
+		// unset($result['company_url']); # we don't need it anymore after matching
 		return $result;
 	};
 

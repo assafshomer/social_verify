@@ -297,18 +297,24 @@ make sure to give 777 permissions on a local dir like so
 
 ## Usage
 
-If you feed a json of the format
+in `domain/openssl/verify_ssl.php` there are two functions
+* `verify_domain_json($json)`: Verifying SSL certificates
+* `verify_asset_json($json)`: Verifying that a file behind SSL contains a mension of a specific asset ID.
+
+The json format both functions are expecting is:
 ```JSON
 {
 	"social":{
 	},
 	"domain":{
-		"url":"https://www.wellsfargo.com",
+		"aid":"U9a36XP1UwL5pxaYYiZYJ86sUqWAJ2dGbLaer",
+		"url":"https://www.bankofamerica.com",
 		"path":"assets.txt"
 	}
 }
 ```
-to the function `verify_domain_json($json)` sitting in `domain/openssl/verify_ssl.php` then we
+
+### `verify_domain_json($json)` will
 * Fetch the certificate from the url
 * Fetch the full certificate chain up to a CA
 * Verify all certificates in the chain
@@ -322,6 +328,9 @@ to the function `verify_domain_json($json)` sitting in `domain/openssl/verify_ss
  "url_matching" => "TRUE|false" 
 }
 ```
+
+### `verify_asset_json($json)` will
+* Returns `TRUE` or `false` according to whether the asset id `aid` appears in the file sitting behind SSL at `url`/`path`. For example, in this case we will be looking for a line containing `U9a36XP1UwL5pxaYYiZYJ86sUqWAJ2dGbLaer` in a file located at `https://www.bankofamerica.com/asset.txt`
 
 ### Test
 Open `test/domain/domain_test.php` in your browser.
