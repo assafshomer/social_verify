@@ -289,8 +289,12 @@ Open `test/networks/github_test.php` in your browser.
 
 # Domain verification
 
+Domain verification does two things:
+* Verify the SSL certificate of a given domain.
+* Check a mention of an asset ID in a file behind SSL.
+
 ## Setup
-make sure to give 777 permissions on a local dir like so
+Give 777 permissions on the directory where certificates and auxiliary files will be saved
 ```Batchfile
 	sudo chmod -R 777 verify/domain/openssl/tmp/
 ```
