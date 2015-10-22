@@ -4,15 +4,10 @@
 include SECRET_FILE;
 
 function get_bearer_token(){
-	// Step 1
-	// step 1.1 - url encode the consumer_key and consumer_secret in accordance with RFC 1738
 	$encoded_consumer_key = urlencode(CONSUMER_KEY);
 	$encoded_consumer_secret = urlencode(CONSUMER_SECRET);
-	// step 1.2 - concatinate encoded consumer, a colon character and the encoded consumer secret
 	$bearer_token = $encoded_consumer_key.':'.$encoded_consumer_secret;
-	// step 1.3 - base64-encode bearer token
 	$base64_encoded_bearer_token = base64_encode($bearer_token);
-	// step 2
 	$url = "https://api.twitter.com/oauth2/token"; // url to send data to for authentication
 	$headers = array( 
 		"POST /oauth2/token HTTP/1.1", 
@@ -26,7 +21,7 @@ function get_bearer_token(){
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
 	curl_setopt($ch, CURLOPT_POST, 1); 
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials"); // post body/fields to be sent
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials"); 
 	$header = curl_setopt($ch, CURLOPT_HEADER, 1); 
 	$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	$retrievedhtml = curl_exec ($ch); 
