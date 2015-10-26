@@ -1,5 +1,6 @@
 <?php	
 	define('CDIR','/tmp/verify/certs/');
+	define('CERT_FILE_NAME','blarg');
 	// $embedded_url = 'https://github.com';
 	// $result = verify_domain($embedded_url);
 	// var_dump($result);
@@ -55,7 +56,7 @@
 
 	function get_company_data($url){
 		chdir(dirname(__FILE__));
-		$cmd = './get_company_data.sh '.$url.' '.CDIR;
+		$cmd = './get_company_data.sh '.$url.' '.CDIR.' '.CERT_FILE_NAME;
 		$subject=exec($cmd);
 		preg_match("/O=(.+)\//U",$subject,$matches);
 		$company_name=$matches[1];
@@ -68,7 +69,7 @@
 
 	function load_certificate_chain($url){
 		chdir(dirname(__FILE__));
-		$cmd = './ocsp_load.sh '.$url.' '.CDIR;
+		$cmd = './ocsp_load.sh '.$url.' '.CDIR.' '.CERT_FILE_NAME;
 		// echo $cmd;
 		return exec($cmd);
 	};

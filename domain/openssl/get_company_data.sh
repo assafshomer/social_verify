@@ -14,7 +14,8 @@ TAG="$(echo $DOMAIN|awk '{gsub("\\.", "_")}1';)"
 # CDIR='tmp/';
 CDIR=$2;
 # define aux file suffixes 
-LEVEL='level';
+# LEVEL='level';
+LEVEL=$3;
 
 # change to current dir
 cd ${0%/*};

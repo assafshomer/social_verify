@@ -24,7 +24,8 @@ MZF=$CDIR'mozbunle.crt';
 
 # define aux file suffixes 
 # certificate chain files
-LEVEL='level';
+# LEVEL='level';
+LEVEL=$3;
 # Authority information access 
 AIA='aia';
 # verification result
