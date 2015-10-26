@@ -15,7 +15,8 @@ fi;
 TAG="$(echo $DOMAIN|awk '{gsub("\\.", "_")}1';)"
 
 # define directory for cert files (create and chmod it to 777 before)
-CDIR='tmp/';
+# CDIR='tmp/';
+CDIR=$2;
 
 # define the name of certificate files
 CAF=$CDIR'CAbundle.crt';

@@ -1,5 +1,5 @@
 <?php	
-
+	define('CDIR','/tmp/verify/certs/');
 	// $embedded_url = 'https://github.com';
 	// $result = verify_domain($embedded_url);
 	// var_dump($result);
@@ -42,11 +42,11 @@
 		};	
 	};
 
-	function get_chain_verification_results($chain_length,$url){
+	function get_chain_verification_results($chain_length,$url){		
 		$result_array = array();
 		$tag = str_replace('.', '_', get_domain_from_url($url));	
 		for ($x = 0; $x < $chain_length; $x++) {		
-			$result=file_get_contents('tmp/'.$tag.'_result'.$x.'.txt');
+			$result=file_get_contents(CDIR.$tag.'_result'.$x.'.txt');
 			preg_match("/0x\S+\s(\w+)\n/", $result,$matches);
 			array_push($result_array,$matches[1]);
 		}
@@ -55,7 +55,7 @@
 
 	function get_company_data($url){
 		chdir(dirname(__FILE__));
-		$cmd = './get_company_data.sh '.$url;
+		$cmd = './get_company_data.sh '.$url.' '.CDIR;
 		$subject=exec($cmd);
 		preg_match("/O=(.+)\//U",$subject,$matches);
 		$company_name=$matches[1];
@@ -68,7 +68,7 @@
 
 	function load_certificate_chain($url){
 		chdir(dirname(__FILE__));
-		$cmd = './ocsp_load.sh '.$url;
+		$cmd = './ocsp_load.sh '.$url.' '.CDIR;
 		// echo $cmd;
 		return exec($cmd);
 	};

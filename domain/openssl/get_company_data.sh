@@ -11,7 +11,8 @@ fi;
 # extract tag from domain www.foo.bar -> www_foo_bar
 TAG="$(echo $DOMAIN|awk '{gsub("\\.", "_")}1';)"
 # define directory for cert files
-CDIR='tmp/';
+# CDIR='tmp/';
+CDIR=$2;
 # define aux file suffixes 
 LEVEL='level';
 

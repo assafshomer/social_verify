@@ -294,9 +294,14 @@ Domain verification does two things:
 * Check a mention of an asset ID in a file behind SSL.
 
 ## Setup
-Give 777 permissions on the directory where certificates and auxiliary files will be saved
+In `domain/ssl/verify_ssl.php` you define the directory where certificates and auxiliary files will be saved. All this data is public so there is no security issue. By default this is
+```PHP
+	define('CDIR','/tmp/verify/certs/')
+```
+Make sure to create this directory and give it appropriate permissions
 ```Batchfile
-	sudo chmod -R 777 verify/domain/openssl/tmp/
+	sudo mkdir /tmp/verify/certs/
+	sudo chmod -R 777 /tmp/verify/certs/
 ```
 
 ## Usage
