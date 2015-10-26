@@ -1,6 +1,6 @@
 <?php	
 	define('CDIR','/tmp/verify/certs/');
-	define('CERT_FILE_NAME','blarg');
+	define('CERT_FILE_NAME','level');
 	// $embedded_url = 'https://github.com';
 	// $result = verify_domain($embedded_url);
 	// var_dump($result);
