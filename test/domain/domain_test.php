@@ -2,7 +2,7 @@
 
 include '../test_helper.php';
 include SSL_ROOT.'verify_ssl.php';
-define('SLOW', true);
+define('SLOW', false);
 // mimicking json from eyal
 $bofa_json = load_json('verified');
 $wf_json = load_json('wf');
@@ -18,14 +18,30 @@ $good_array=array('good','good','good');
 $bad_array=array('good','good','bad');
 $bofa_url = 'https://www.bankofamerica.com';
 
+$urls = ['https://www.foo.bar','http://www.foo.bar','httx://www.foo.bar','https://wwwfoobar','blard','https:/www.foo.bar','https:///www.foo.bar',null,'',' ','https://colu.co'];
+$expected = array(TRUE,false,false,false,false,false,false,false,false,false,TRUE);
+foreach ($urls as &$key) {
+	// $pattern = "/https:\/\/(\w*\.+)+/i";
+	// preg_match($pattern, $key) ? $key = 1: $key = 0;
+	$key = verify_url($key);
+};
+
+// var_dump($urls);
+// echo "<br/>urls: [".$urls."]";
 // TESTS
 // $var_test = ()? PASS:FAIL;
+
+$verify_url_test=($urls == $expected) ? PASS:FAIL;
+echo "<br/>verify_url_test: [".$verify_url_test."]";
 
 $array_test=(verify_chain($good_array) == 1 && verify_chain($bad_array) != 1) ? PASS:FAIL;
 echo "<br/>array_test: [".$array_test."]";
 
 $get_url_test = (get_url($bofa_json)==$bofa_url)?PASS:get_url($bofa_json);
 echo "<br/>get_url_test: [".$get_url_test."]";
+
+$get_empty_url_test = (get_url(null)=='')?PASS:get_url(null);
+echo "<br/>get_empty_url_test: [".$get_empty_url_test."]";
 
 $match_domains_test=(match_urls('www.foo.bar','xxx.foo.bar')
 	&&  match_urls('www.foo.bar','*.foo.bar')
@@ -37,6 +53,38 @@ echo "<br/>match_domains_test: [".$match_domains_test."]";
 
 $get_domain_from_url_test = (get_domain_from_url($bofa_url) == 'www.bankofamerica.com' )?PASS:FAIL;
 echo "<br/>get_domain_from_url_test: [".$get_domain_from_url_test."]";
+
+$nothing = verify_domain_json(null);
+$null_test = ($nothing["company_name"]== "" 
+	&&	$nothing["verification_result"]=='FAIL'
+	&&	$nothing["url_matching"]=='false'
+)?PASS:FAIL;
+echo "<br/>null_test: [".$null_test."]";
+if ($null_test==FAIL) {var_dump($nothing);}
+
+$blank = verify_domain_json('');
+$blank_test = ($blank["company_name"]== "" 
+	&&	$blank["verification_result"]=='FAIL'
+	&&	$blank["url_matching"]=='false'
+)?PASS:FAIL;
+echo "<br/>blank_test: [".$blank_test."]";
+if ($blank_test==FAIL) {var_dump($blank);}
+
+$empty = verify_domain_json(' ');
+$empty_test = ($empty["company_name"]== "" 
+	&&	$empty["verification_result"]=='FAIL'
+	&&	$empty["url_matching"]=='false'
+)?PASS:FAIL;
+echo "<br/>empty_test: [".$empty_test."]";
+if ($empty_test==FAIL) {var_dump($empty);}
+
+$nonurl = verify_domain_json('non.url');
+$nonurl_test = ($nonurl["company_name"]== "" 
+	&&	$nonurl["verification_result"]=='FAIL'
+	&&	$nonurl["url_matching"]=='false'
+)?PASS:FAIL;
+echo "<br/>nonurl_test: [".$nonurl_test."]";
+if ($nonurl_test==FAIL) {var_dump($nonurl);}
 
 // BANK OF AMERICA
 $bofa = verify_domain_json($bofa_json);
@@ -116,4 +164,5 @@ echo "<br/>colu_fake_asset_test: [".$colu_fake_asset_test."]";
 // echo "<br/>gist: [".$gist."]";
 
 ?>
+
 

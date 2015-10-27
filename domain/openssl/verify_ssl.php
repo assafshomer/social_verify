@@ -1,16 +1,27 @@
 <?php	
-	define('CDIR','/tmp/verify/certs/');
+	// define('CDIR','/tmp/verify/certs/');
+	define('CDIR','tmp/');
 	define('CERT_FILE_NAME','level');
 	// $embedded_url = 'https://github.com';
 	// $result = verify_domain($embedded_url);
 	// var_dump($result);
 
 	function verify_domain_json($json){
-		$url = get_url($json);
-		return verify_domain_by_url($url);
+		$url = get_url($json);		
+		if (verify_url($url)) {
+			return verify_domain_by_url($url);
+		} else {
+			return array('company_name'=>'','company_url'=>'','verification_result'=>'FAIL','url_matching'=>'false');
+		};
 	}
 
+	function verify_url($url){
+		$pattern = "/https:\/\/(\w*\.+)+/i";
+		return preg_match($pattern, $url) ? TRUE : false;
+	};
+
 	function verify_domain_by_url($url){
+		// echo "<br/>$url: [".$url."]";
 		$certificate_chain_length = load_certificate_chain($url);
 		$result_array = get_chain_verification_results($certificate_chain_length,$url);
 		$verification_result = verify_chain($result_array)?"PASS":"FAIL";
@@ -120,4 +131,5 @@
 		return (trim($matches[0]) == $aid)?TRUE:false;	
 	};
 	
+
 ?>
