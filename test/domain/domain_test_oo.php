@@ -59,7 +59,7 @@ echo "<br/>get_domain_from_url_test: [".$get_domain_from_url_test."]";
 
 $nothing = new DomainVerifier(null);
 $null_test = ($nothing->company_name== "" 
-	&&	$nothing->ssl_verified == 'FAIL'
+	&&	$nothing->ssl_verified == false
 	&&	$nothing->url_matching == false
 	&&	$nothing->asset_verified == false
 )?PASS:FAIL;
@@ -68,7 +68,7 @@ if ($null_test==FAIL) {var_dump($nothing);}
 
 $blank = new DomainVerifier('');
 $blank_test = ($blank->company_name== "" 
-	&&	$blank->ssl_verified == 'FAIL'
+	&&	$blank->ssl_verified == false
 	&&	$blank->url_matching == false
 	&&	$blank->asset_verified == false
 )?PASS:FAIL;
@@ -77,7 +77,7 @@ if ($blank_test==FAIL) {var_dump($blank);}
 
 $empty = new DomainVerifier(' ');
 $empty_test = ($empty->company_name== "" 
-	&&	$empty->ssl_verified == 'FAIL'
+	&&	$empty->ssl_verified == false
 	&&	$empty->url_matching == false
 	&&	$empty->asset_verified == false
 )?PASS:FAIL;
@@ -86,7 +86,7 @@ if ($empty_test==FAIL) {var_dump($empty);}
 
 $nonjson = new DomainVerifier('blarg');
 $nonjson_test = ($nonjson->company_name== "" 
-	&&	$nonjson->ssl_verified == 'FAIL'
+	&&	$nonjson->ssl_verified == false
 	&&	$nonjson->url_matching == false
 	&&	$nonjson->asset_verified == false
 )?PASS:FAIL;
@@ -95,7 +95,7 @@ if ($nonjson_test==FAIL) {var_dump($nonjson);}
 
 $blankurl = new DomainVerifier($blank_url_json);
 $blankurl_test = ($blankurl->company_name== "" 
-	&&	$blankurl->ssl_verified == 'FAIL'
+	&&	$blankurl->ssl_verified == false
 	&&	$blankurl->url_matching == false
 	&&	$blankurl->asset_verified == false
 )?PASS:FAIL;
@@ -104,7 +104,7 @@ if ($blankurl_test==FAIL) {var_dump($blankurl);}
 
 $fakeurl = new DomainVerifier($fake_url_json);
 $fakeurl_test = ($fakeurl->company_name== "" 
-	&&	$fakeurl->ssl_verified == 'FAIL'
+	&&	$fakeurl->ssl_verified == false
 	&&	$fakeurl->url_matching == false
 	&&	$fakeurl->asset_verified == false
 )?PASS:FAIL;
@@ -114,7 +114,7 @@ if ($fakeurl_test==FAIL) {var_dump($fakeurl);}
 // BANK OF AMERICA
 $bofa = new DomainVerifier($bofa_json);
 $bofa_ssl_test = ($bofa->company_name  == "Bank of America Corporation" 
-	&&	$bofa->ssl_verified == 'PASS'
+	&&	$bofa->ssl_verified == TRUE
 	&&	$bofa->url_matching == TRUE
 	&&	$bofa->asset_verified == false
 )?PASS:FAIL;
@@ -127,7 +127,7 @@ if (SLOW=='TRUE') {
 	$wf=new DomainVerifier($wf_json);
 	$wf_ssl_test = ($wf->company_name == "Wells Fargo and Company" 
 		// &&	$wf["company_url"]=='www.wellsfargo.com'
-		&&	$wf->ssl_verified == 'PASS'
+		&&	$wf->ssl_verified == TRUE
 		&&	$wf->url_matching == TRUE
 		&&	$wf->asset_verified == false
 	)?PASS:FAIL;
@@ -138,7 +138,7 @@ if (SLOW=='TRUE') {
 	$github=new DomainVerifier($github_json);
 	$github_ssl_test = ($github->company_name == "GitHub, Inc." 
 		// &&	$github["company_url"]=='github.com'
-		&&	$github->ssl_verified == 'PASS'
+		&&	$github->ssl_verified == TRUE
 		&&	$github->url_matching == TRUE
 		&&	$github->asset_verified == false
 	)?PASS:FAIL;
@@ -149,7 +149,7 @@ if (SLOW=='TRUE') {
 	$coinbase=new DomainVerifier($coinbase_json);
 	$coinbase_ssl_test = ($coinbase->company_name == "Coinbase, Inc." 
 		// &&	$coinbase["company_url"]=='www.coinbase.com'
-		&&	$coinbase->ssl_verified == 'PASS'
+		&&	$coinbase->ssl_verified == TRUE
 		&&	$coinbase->url_matching == TRUE
 		&&	$coinbase->asset_verified == false
 	)?PASS:FAIL;
@@ -160,7 +160,7 @@ if (SLOW=='TRUE') {
 	$colu=new DomainVerifier($colu_json);
 	$colu_ssl_test = ($colu->company_name == "" 
 		// &&	$colu["company_url"]=='colu.co'
-		&&	$colu->ssl_verified == 'PASS'
+		&&	$colu->ssl_verified == TRUE
 		&&	$colu->url_matching == TRUE
 		&&	$colu->asset_verified == TRUE
 	)?PASS:FAIL;
@@ -170,7 +170,7 @@ if (SLOW=='TRUE') {
 	// BLOCKCHAIN.INFO
 	$bcinfo=new DomainVerifier($bcinfo_json);
 	$bcinfo_ssl_test = ($bcinfo->company_name == "Blockchain Luxembourg S.A.R.L" 
-		&&	$bcinfo->ssl_verified == 'PASS'
+		&&	$bcinfo->ssl_verified == TRUE
 		&&	$bcinfo->url_matching == TRUE
 		&&	$bcinfo->asset_verified == false
 	)?PASS:FAIL;

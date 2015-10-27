@@ -3,7 +3,7 @@
 
 		public static $cdir = '/tmp/verify/certs';
 		public static $certFileName = 'level';
-		public static $negativeResult = array('company_name'=>'','company_url'=>'','verification_result'=>'FAIL','url_matching'=>false);
+		public static $negativeResult = array('company_name'=>'','company_url'=>'','verification_result'=>false,'url_matching'=>false);
 
 		function DomainVerifier($json){
 			$this->json = $json;
@@ -36,7 +36,7 @@
 			// echo "<br/>$url: [".$url."]";
 			$certificate_chain_length = load_certificate_chain($url);
 			$result_array = get_chain_verification_results($certificate_chain_length,$url);
-			$verification_result = verify_chain($result_array)?"PASS":"FAIL";
+			$verification_result = verify_chain($result_array)?TRUE:false;
 			$result = get_company_data($url);
 			$result['verification_result']=$verification_result;
 			$url_matching = match_urls(get_domain_from_url($url),$result['company_url']);		
