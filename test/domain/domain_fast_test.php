@@ -1,7 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/verify/shared/errors.php';
 include '../test_helper.php';
-include SSL_ROOT.'verify_ssl.php';
+// include SSL_ROOT.'verify_ssl.php';
 include SSL_ROOT.'verify_ssl_oo.php';
 define('SLOW', false);
 // mimicking json from eyal
@@ -17,6 +17,10 @@ $blank_url_json = load_json('blank_url');
 $fake_url_json = load_json('fake_url');
 
 
+
+$get_url_test = (get_url($bofa_json)==$bofa_url)?PASS:get_url($bofa_json);
+echo "<br/>get_url_test: [".$get_url_test."]";
+
 // echo "<hr/>";
 // $df = new DomainVerifier($blank_url_json);
 // echo "<br/>ssl_verified: [".$df->ssl_verified."]";
@@ -27,14 +31,14 @@ $fake_url_json = load_json('fake_url');
 // 	echo 'blarg';
 // }
 
-$nothing = new DomainVerifier(null);
-$null_test = ($nothing->company_name== "" 
-	&&	$nothing->ssl_verified == 'FAIL'
-	&&	$nothing->url_matching == false
-	&&	$nothing->asset_verified == false
-)?PASS:FAIL;
-echo "<br/>null_test: [".$null_test."]";
-if ($null_test==FAIL) {var_dump($nothing);}
+// $bofa = new DomainVerifier($bofa_json);
+// $bofa_ssl_test = ($bofa->company_name  == "Bank of America Corporation" 
+// 	&&	$bofa->ssl_verified == TRUE
+// 	&&	$bofa->url_matching == TRUE
+// 	&&	$bofa->asset_verified == false
+// )?PASS:FAIL;
+// echo "<br/>bofa_ssl_test: [".$bofa_ssl_test."]";
+// if ($bofa_ssl_test==FAIL) {var_dump($bofa);}
 
 
 ?>

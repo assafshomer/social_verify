@@ -1,7 +1,7 @@
 <?php	
 	class DomainVerifier {
 
-		public static $cdir = '/tmp/verify/certs';
+		public static $cdir = '/tmp/verify/certs/';
 		public static $certFileName = 'level';
 		public static $negativeResult = array('company_name'=>'','company_url'=>'','verification_result'=>false,'url_matching'=>false);
 
@@ -19,9 +19,9 @@
 			if (empty($json)) {
 				return self::$negativeResult;
 			};			
-			$url = get_url($json);		
-			if (verify_url($url)) {
-				return verify_domain_by_url($url);
+			$url = $this->get_url($json);		
+			if ($this->verify_url($url)) {
+				return $this->verify_domain_by_url($url);
 			} else {
 				return self::$negativeResult;
 			};
@@ -34,20 +34,20 @@
 
 		private function verify_domain_by_url($url){
 			// echo "<br/>$url: [".$url."]";
-			$certificate_chain_length = load_certificate_chain($url);
-			$result_array = get_chain_verification_results($certificate_chain_length,$url);
-			$verification_result = verify_chain($result_array)?TRUE:false;
-			$result = get_company_data($url);
+			$certificate_chain_length = $this->load_certificate_chain($url);
+			$result_array = $this->get_chain_verification_results($certificate_chain_length,$url);
+			$verification_result = $this->verify_chain($result_array)?TRUE:false;
+			$result = $this->get_company_data($url);
 			$result['verification_result']=$verification_result;
-			$url_matching = match_urls(get_domain_from_url($url),$result['company_url']);		
+			$url_matching = $this->match_urls($this->get_domain_from_url($url),$result['company_url']);		
 			$result['url_matching']= $url_matching;
 			// unset($result['company_url']); # we don't need it anymore after matching
 			return $result;
 		}
 
 		private function match_urls($url1,$url2){
-			$s1=truncate_first($url1);
-			$s2=truncate_first($url2);
+			$s1=$this->truncate_first($url1);
+			$s2=$this->truncate_first($url2);
 			return ($s1==$s2 || $s2==$url1 || $s1==$url2)?TRUE:false;
 		}
 
@@ -68,9 +68,9 @@
 
 		private function get_chain_verification_results($chain_length,$url){		
 			$result_array = array();
-			$tag = str_replace('.', '_', get_domain_from_url($url));	
+			$tag = str_replace('.', '_', $this->get_domain_from_url($url));	
 			for ($x = 0; $x < $chain_length; $x++) {		
-				$result=file_get_contents(CDIR.$tag.'_result'.$x.'.txt');
+				$result=file_get_contents(self::$cdir.$tag.'_result'.$x.'.txt');
 				preg_match("/0x\S+\s(\w+)\n/", $result,$matches);
 				array_push($result_array,$matches[1]);
 			}
@@ -79,7 +79,7 @@
 
 		private function get_company_data($url){
 			chdir(dirname(__FILE__));
-			$cmd = './get_company_data.sh '.$url.' '.CDIR.' '.CERT_FILE_NAME;
+			$cmd = './get_company_data.sh '.$url.' '.self::$cdir.' '.self::$certFileName;
 			$subject=exec($cmd);
 			preg_match("/O=(.+)\//U",$subject,$matches);
 			$company_name=$matches[1];
@@ -92,7 +92,7 @@
 
 		private function load_certificate_chain($url){
 			chdir(dirname(__FILE__));
-			$cmd = './ocsp_load.sh '.$url.' '.CDIR.' '.CERT_FILE_NAME;
+			$cmd = './ocsp_load.sh '.$url.' '.self::$cdir.' '.self::$certFileName;
 			// echo $cmd;
 			return exec($cmd);
 		}
@@ -134,11 +134,11 @@
 
 		private function verify_asset_json($json){
 			if (empty($json)) {return false;};			
-			$path = get_file_path($json);
+			$path = $this->get_file_path($json);
 			if (empty($path)) {return false;};
-			$url = get_url($json);
+			$url = $this->get_url($json);
 			if (empty($url)) {return false;};
-			$aid = get_asset_id($json);
+			$aid = $this->get_asset_id($json);
 			if (empty($aid)) {return false;};
 			$file = file_get_contents($url.'/'.$path);
 			$regex="/^$aid\n|\n$aid\n|\n$aid$/";
