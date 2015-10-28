@@ -80,7 +80,7 @@
 
 	function load_certificate_chain($url){
 		chdir(dirname(__FILE__));
-		$cmd = './ocsp_load.sh '.$url.' '.CDIR.' '.CERT_FILE_NAME;
+		$cmd = './load_ssl_certificates.sh '.$url.' '.CDIR.' '.CERT_FILE_NAME;
 		// echo $cmd;
 		return exec($cmd);
 	};

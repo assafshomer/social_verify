@@ -3,7 +3,7 @@
 // include '../test_helper.php';
 include '/var/www/html/verify/test/test_helper.php';
 // include SSL_ROOT.'verify_ssl.php';
-include '/var/www/html/verify/domain/openssl/verify_ssl.php';
+include '/var/www/html/verify/domain/verify_ssl.php';
 $results_file_path = TEST_ROOT.'/test_results.html';
 
 // mimicking json from eyal

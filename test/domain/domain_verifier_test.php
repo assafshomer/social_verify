@@ -1,7 +1,7 @@
 <?php
 // include $_SERVER['DOCUMENT_ROOT'].'/verify/shared/errors.php';
 include '../test_helper.php';
-include SSL_ROOT.'verify_ssl_oo.php';
+include SSL_ROOT.'domain_verifier.php';
 define('SLOW', TRUE);
 // mimicking json from eyal
 $bofa_json = load_json('verified');

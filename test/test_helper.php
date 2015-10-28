@@ -2,7 +2,7 @@
 
 define('TEST_ROOT',dirname(__FILE__).'/');
 define('APP_ROOT',$_SERVER['DOCUMENT_ROOT'].'/verify/networks/');
-define('SSL_ROOT',$_SERVER['DOCUMENT_ROOT'].'/verify/domain/openssl/');
+define('SSL_ROOT',$_SERVER['DOCUMENT_ROOT'].'/verify/domain/');
 define('PASS', '<div style="color:green;display:inline">pass</div>');
 define('FAIL', '<div style="color:red;display:inline">fail</div>');
 

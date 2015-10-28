@@ -3,7 +3,7 @@
 
 	class DomainVerifier {
 
-		public static $cdir = 'tmp/';
+		public static $cdir = 'certs/'; #make sure to chmod 777 
 		public static $certFileName = 'level';
 		public static $negativeResult = array('company_name'=>'','company_url'=>'','verification_result'=>false,'url_matching'=>false);
 
@@ -83,7 +83,7 @@
 
 		private function load_certificate_chain($url){
 			chdir(dirname(__FILE__));
-			$cmd = './ocsp_load.sh '.$url.' '.self::$cdir.' '.self::$certFileName;
+			$cmd = './load_ssl_certificates.sh '.$url.' '.self::$cdir.' '.self::$certFileName;
 			// echo $cmd;
 			return exec($cmd);
 		}
