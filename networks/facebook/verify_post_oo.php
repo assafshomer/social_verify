@@ -17,7 +17,7 @@
 		private function fb_verify_asset($json,$reader){
 			$uidx = $reader->get_path('social,facebook,uid');
 			$pidx = $reader->get_path('social,facebook,pid');
-			if (!$pidx || !$uidx) {return false;};
+			if (!$pidx || !$uidx) {$this->verified = false;};
 			$postx = $this->get_post($uidx,$pidx);
 			$post_contentx = $this->parse_post($postx);
 			$expected_contentx = $this->get_expected_text($json,$reader);
