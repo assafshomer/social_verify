@@ -2,7 +2,11 @@
 	code
 	- certs/
 	- get_company_data.sh
-	- ocsp_load.sh
+	- load_ssl_certificates.sh
 	- domain_verifier.php
 	test
 	- domain_verifier_test.php
+
+- social
+	- facebook
+	 
