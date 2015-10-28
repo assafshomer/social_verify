@@ -1,18 +1,14 @@
 <?php	
 	class DomainVerifier {
 
-		public static $cdir = '/tmp/verify/certs/';
+		public static $cdir = 'tmp/';
 		public static $certFileName = 'level';
 		public static $negativeResult = array('company_name'=>'','company_url'=>'','verification_result'=>false,'url_matching'=>false);
 
 		function DomainVerifier($json){
 			$this->json = $json;
-			$result = $this->verify_domain_json($json);
-			$this->company_name=$result['company_name'];
-			$this->company_url=$result['company_url'];
-			$this->url_matching=$result['url_matching'];
-			$this->ssl_verified=$result['verification_result'];			
-			$this->asset_verified=$this->verify_asset_json($json);
+			$this->verify_domain_json($json);
+			$this->verify_asset_json($json);
 		}
 
 		private function verify_domain_json($json){
@@ -38,9 +34,10 @@
 			$result_array = $this->get_chain_verification_results($certificate_chain_length,$url);
 			$verification_result = $this->verify_chain($result_array)?TRUE:false;
 			$result = $this->get_company_data($url);
-			$result['verification_result']=$verification_result;
-			$url_matching = $this->match_urls($this->get_domain_from_url($url),$result['company_url']);		
-			$result['url_matching']= $url_matching;
+			$this->ssl_verified=$verification_result;
+			$url_matching = $this->match_urls($this->get_domain_from_url($url),$this->company_url);		
+			// $result['url_matching']= $url_matching;
+			$this->url_matching = $url_matching;
 			// unset($result['company_url']); # we don't need it anymore after matching
 			return $result;
 		}
@@ -82,12 +79,9 @@
 			$cmd = './get_company_data.sh '.$url.' '.self::$cdir.' '.self::$certFileName;
 			$subject=exec($cmd);
 			preg_match("/O=(.+)\//U",$subject,$matches);
-			$company_name=$matches[1];
+			$this->company_name=$matches[1];
 			preg_match("/CN=(.+)/",$subject,$matches);
-			$company_url=$matches[1];
-			$data = ['company_name' => $company_name,
-							'company_url' => $company_url,];
-			return $data;
+			$this->company_url=$matches[1];
 		}
 
 		private function load_certificate_chain($url){
@@ -144,7 +138,7 @@
 			$regex="/^$aid\n|\n$aid\n|\n$aid$/";
 			preg_match($regex,$file,$matches);
 			// return (trim($matches[0]) == $aid)?TRUE:var_dump($matches);	#for debu	
-			return (trim($matches[0]) == $aid)?TRUE:false;	
+			$this->asset_verified = (trim($matches[0]) == $aid);
 		}
 
 	}

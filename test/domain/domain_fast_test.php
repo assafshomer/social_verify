@@ -18,8 +18,8 @@ $fake_url_json = load_json('fake_url');
 
 
 
-$get_url_test = (get_url($bofa_json)==$bofa_url)?PASS:get_url($bofa_json);
-echo "<br/>get_url_test: [".$get_url_test."]";
+// $get_url_test = (get_url($bofa_json)==$bofa_url)?PASS:get_url($bofa_json);
+// echo "<br/>get_url_test: [".$get_url_test."]";
 
 // echo "<hr/>";
 // $df = new DomainVerifier($blank_url_json);
@@ -31,14 +31,14 @@ echo "<br/>get_url_test: [".$get_url_test."]";
 // 	echo 'blarg';
 // }
 
-// $bofa = new DomainVerifier($bofa_json);
-// $bofa_ssl_test = ($bofa->company_name  == "Bank of America Corporation" 
-// 	&&	$bofa->ssl_verified == TRUE
-// 	&&	$bofa->url_matching == TRUE
-// 	&&	$bofa->asset_verified == false
-// )?PASS:FAIL;
-// echo "<br/>bofa_ssl_test: [".$bofa_ssl_test."]";
-// if ($bofa_ssl_test==FAIL) {var_dump($bofa);}
+$bofa = new DomainVerifier($bofa_json);
+$bofa_ssl_test = ($bofa->company_name  == "Bank of America Corporation" 
+	&&	$bofa->ssl_verified == TRUE
+	&&	$bofa->url_matching == TRUE
+	&&	$bofa->asset_verified == false
+)?PASS:FAIL;
+echo "<br/>bofa_ssl_test: [".$bofa_ssl_test."]";
+if ($bofa_ssl_test==FAIL) {var_dump($bofa);}
 
 
 ?>
