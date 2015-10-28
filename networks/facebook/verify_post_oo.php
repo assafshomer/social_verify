@@ -1,10 +1,11 @@
 <?php
 
 	include '../../json_reader.php';
-
+	include '../../secrets.php';
+	
 	class FacebookVerifier {
 		public static $host = 'https://graph.facebook.com';
-		public static $fb_app_token = '1624529804474003|D3cf6KRK-zhfvgASwRRfieUqtSw';
+		public static $fb_app_token = FACEBOOK_APP_TOKEN;
 		public static $prefix = 'Verifying issuance of colored coins asset with asset_id:';
 		var $verified;
 
