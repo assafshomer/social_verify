@@ -1,4 +1,6 @@
-<?php	
+<?php
+	include '../../json_reader.php';
+
 	class DomainVerifier {
 
 		public static $cdir = 'tmp/';
@@ -7,15 +9,16 @@
 
 		function DomainVerifier($json){
 			$this->json = $json;
-			$this->verify_domain_json($json);
-			$this->verify_asset_json($json);
+			$this->reader = new JsonReader($json);
+			$this->verify_domain_json($json,$this->reader);
+			$this->verify_asset_json($json,$this->reader);			
 		}
 
-		private function verify_domain_json($json){
+		private function verify_domain_json($json,$reader){
 			if (empty($json)) {
 				return self::$negativeResult;
-			};			
-			$url = $this->get_url($json);		
+			};
+			$url = $reader->get_path('domain,url');
 			if ($this->verify_url($url)) {
 				return $this->verify_domain_by_url($url);
 			} else {
@@ -85,48 +88,18 @@
 			return exec($cmd);
 		}
 
-		private function get_url($json){
-			$tmp = json_decode($json,TRUE);
-			$error_message = $tmp['errors'][0]['message'];
-			if (strlen($error_message)>0) {
-				return $error_message;
-			} else {
-				return $tmp['domain']['url'];
-			};
-		}
-
-		private function get_file_path($json){
-			$tmp = json_decode($json,TRUE);
-			$error_message = $tmp['errors'][0]['message'];
-			if (strlen($error_message)>0) {
-				return $error_message;
-			} else {
-				return $tmp['domain']['path'];
-			};
-		}
-
-		private function get_asset_id($json){
-			$tmp = json_decode($json,TRUE);
-			$error_message = $tmp['errors'][0]['message'];
-			if (strlen($error_message)>0) {
-				return $error_message;
-			} else {
-				return $tmp['domain']['aid'];
-			};
-		}
-
 		private function get_domain_from_url($url){
 			preg_match("/https:\/\/(.+)/", $url,$matches);
 			return $matches[1];
 		}
 
-		private function verify_asset_json($json){
+		private function verify_asset_json($json,$reader){
 			if (empty($json)) {return false;};			
-			$path = $this->get_file_path($json);
+			$path = $reader->get_path('domain,path');
 			if (empty($path)) {return false;};
-			$url = $this->get_url($json);
+			$url = $reader->get_path('domain,url');
 			if (empty($url)) {return false;};
-			$aid = $this->get_asset_id($json);
+			$aid = $reader->get_path('domain,aid');
 			if (empty($aid)) {return false;};
 			$file = file_get_contents($url.'/'.$path);
 			$regex="/^$aid\n|\n$aid\n|\n$aid$/";

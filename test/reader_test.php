@@ -8,6 +8,8 @@ $json = load_json('verified');
 
 $reader=new JsonReader($json);
 
+// var_dump($reader);
+
 $path = 'social,twitter,pid';
 $twitter_pid_test = ($reader->get_path($path) == '651645990554968064') ? PASS : FAIL;
 echo "<br/>twitter_pid_test: [".$twitter_pid_test."]";

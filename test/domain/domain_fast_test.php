@@ -32,6 +32,11 @@ $fake_url_json = load_json('fake_url');
 // }
 
 $bofa = new DomainVerifier($bofa_json);
+// echo "<br/>***************************<br/>";
+// var_dump($bofa->reader);
+// $reader = $bofe->reader;
+// $reader->get_path('social,twitter,aid');
+// echo "<br/>***************************<br/>";
 $bofa_ssl_test = ($bofa->company_name  == "Bank of America Corporation" 
 	&&	$bofa->ssl_verified == TRUE
 	&&	$bofa->url_matching == TRUE
