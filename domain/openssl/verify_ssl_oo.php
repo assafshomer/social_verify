@@ -29,17 +29,11 @@
 		}
 
 		private function verify_domain_by_url($url){
-			// echo "<br/>$url: [".$url."]";
 			$certificate_chain_length = $this->load_certificate_chain($url);
-			$result_array = $this->get_chain_verification_results($certificate_chain_length,$url);
-			$verification_result = $this->verify_chain($result_array)?TRUE:false;
-			$result = $this->get_company_data($url);
-			$this->ssl_verified=$verification_result;
-			$url_matching = $this->match_urls($this->get_domain_from_url($url),$this->company_url);		
-			// $result['url_matching']= $url_matching;
-			$this->url_matching = $url_matching;
-			// unset($result['company_url']); # we don't need it anymore after matching
-			return $result;
+			$chain_data = $this->extract_chain_data($certificate_chain_length,$url);			
+			$this->ssl_verified=$this->verify_chain($chain_data);
+			$this->get_company_data($url);
+			$this->url_matching = $this->match_urls($this->get_domain_from_url($url),$this->company_url);		
 		}
 
 		private function match_urls($url1,$url2){
@@ -63,15 +57,15 @@
 			};	
 		}
 
-		private function get_chain_verification_results($chain_length,$url){		
-			$result_array = array();
+		private function extract_chain_data($chain_length,$url){		
+			$chain_data = array();
 			$tag = str_replace('.', '_', $this->get_domain_from_url($url));	
 			for ($x = 0; $x < $chain_length; $x++) {		
 				$result=file_get_contents(self::$cdir.$tag.'_result'.$x.'.txt');
 				preg_match("/0x\S+\s(\w+)\n/", $result,$matches);
-				array_push($result_array,$matches[1]);
+				array_push($chain_data,$matches[1]);
 			}
-			return $result_array;
+			return $chain_data;
 		}
 
 		private function get_company_data($url){
@@ -137,7 +131,6 @@
 			$file = file_get_contents($url.'/'.$path);
 			$regex="/^$aid\n|\n$aid\n|\n$aid$/";
 			preg_match($regex,$file,$matches);
-			// return (trim($matches[0]) == $aid)?TRUE:var_dump($matches);	#for debu	
 			$this->asset_verified = (trim($matches[0]) == $aid);
 		}
 
