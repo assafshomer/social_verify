@@ -1,10 +1,11 @@
 <?php
 
 	include '../../json_reader.php';
+	include '../../secrets.php';
 
 	class GithubVerifier {
 		public static $host = 'https://api.github.com';
-		public static $github_personal_token = 'f920194854ca8f382208a232ff77a6540a3dc0ec';
+		public static $github_personal_token = GITHUB_PERSONAL_TOKEN;
 		public static $prefix = 'Verifying issuance of colored coins asset with asset_id:';
 		var $verified;
 
@@ -27,7 +28,6 @@
 			// limited to 5000 calls/h https://developer.github.com/v3/#rate-limiting
 			$endpoint = '/gists/'.$pid;
 			$formed_url = self::$host.$endpoint;
-			// echo "<br/>apiurl: [".$formed_url."]";
 			$headers = array( 
 				"GET ".$endpoint." HTTP/1.1", 
 				"Host: ".self::$host.'/gists/', 
@@ -40,11 +40,11 @@
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			$retrievedhtml = curl_exec ($ch);
 			curl_close($ch);
-			// echo $retrievedhtml; 
 			return $retrievedhtml;		
 		}
 
 		function parse_gist($raw_gist){
+			// var_dump($raw_gist);
 			$reader = new JsonReader($raw_gist);
 			return $reader->get_path('files,gistfile1.txt,content');
 		}
