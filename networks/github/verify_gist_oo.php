@@ -4,7 +4,7 @@
 
 	class GithubVerifier {
 		public static $host = 'https://api.github.com';
-		public static $github_personal_token = 'ed5973263e05eb42c6ccaf550ad320583304f430';
+		public static $github_personal_token = 'f920194854ca8f382208a232ff77a6540a3dc0ec';
 		public static $prefix = 'Verifying issuance of colored coins asset with asset_id:';
 		var $verified;
 
@@ -45,13 +45,8 @@
 		}
 
 		function parse_gist($raw_gist){
-			$tmp = json_decode($raw_gist,TRUE);
-			$error_message = $tmp['errors'][0]['message'];
-			if (strlen($error_message)>0) {
-				return $error_message;
-			} else {
-				return $tmp['files']['gistfile1.txt']['content'];
-			};	
+			$reader = new JsonReader($raw_gist);
+			return $reader->get_path('files,gistfile1.txt,content');
 		}
 
 		private function get_expected_text($json,$reader){
