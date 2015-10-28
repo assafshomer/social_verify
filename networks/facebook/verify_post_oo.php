@@ -6,6 +6,7 @@
 		public static $host = 'https://graph.facebook.com';
 		public static $fb_app_token = '1624529804474003|D3cf6KRK-zhfvgASwRRfieUqtSw';
 		public static $prefix = 'Verifying issuance of colored coins asset with asset_id:';
+		var $verified;
 
 		function FacebookVerifier($json){
 			$this->json = $json;
