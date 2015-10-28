@@ -25,6 +25,10 @@ The helper file twitter_get_tokens.php reaches out to twitter_api for a bearer t
 ```
 * You don't need to creat an access token
 * The bearer_token files (initially empty) is required
+* Change permissions on the bearer token file
+```Batchfile
+	sudo chmod 777 networks/twitter/twitter_bearer_token.txt
+```
 
 ### JSON
 To verify an asset with e.g. asset id `LJEC6Q2h9JKNvZqEC87TbEXvxm4br1uivb2QX` the user should 
