@@ -1,7 +1,7 @@
 <?php
 // include $_SERVER['DOCUMENT_ROOT'].'/verify/shared/errors.php';
 include '../test_helper.php';
-include APP_ROOT.'github/verify_gist_oo.php';
+include APP_ROOT.'github/github_verifier.php';
 // include APP_ROOT.'facebook/get_access_token.php';
 // mimicking json from eyal
 $verified_json = load_json('verified');

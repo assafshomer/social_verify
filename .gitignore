@@ -6,5 +6,6 @@ scratch*
 shared/debug
 *.crt
 cmd.*
-domain/openssl/tmp/*.txt
-domain/openssl/tmp/*.crt
+domain/tmp/
+domain/certs/
+release/domain/certs
