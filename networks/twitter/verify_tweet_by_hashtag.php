@@ -25,9 +25,9 @@ $json = ($twitter->setGetfield($getfield)
 
 $data = json_decode($json,TRUE);
 
-// var_dump($data);
-
-var_dump($data['statuses'][0]['text']);
-var_dump($data['statuses'][0]['user']['screen_name']);
+var_dump($data);
+echo count($data['statuses']);
+var_dump($data['statuses'][1]['text']);
+var_dump($data['statuses'][1]['user']['screen_name']);
 
 ?>
